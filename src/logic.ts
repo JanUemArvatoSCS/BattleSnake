@@ -60,16 +60,16 @@ export function move(gameState: GameState): MoveResponse {
 
     // TODO: Step 2 - Don't hit yourself.
     for(var index = 1; index < gameState.you.body.length; index++){
-        if(gameState.you.body[index].y === gameState.you.body[0].y - 1){
+        if(gameState.you.body[index].y === gameState.you.body[0].y - 1 && gameState.you.body[index].x === gameState.you.body[0].x){
             possibleMoves.down = false;
         }
-        if(gameState.you.body[index].y === gameState.you.body[0].y + 1){
+        if(gameState.you.body[index].y === gameState.you.body[0].y + 1 && gameState.you.body[index].x === gameState.you.body[0].x){
             possibleMoves.up = false;
         }
-        if(gameState.you.body[index].x === gameState.you.body[0].x - 1){
+        if(gameState.you.body[index].x === gameState.you.body[0].x - 1 && gameState.you.body[index].y === gameState.you.body[0].y){
             possibleMoves.left = false;
         }
-        if(gameState.you.body[index].x === gameState.you.body[0].x + 1){
+        if(gameState.you.body[index].x === gameState.you.body[0].x + 1 && gameState.you.body[index].y === gameState.you.body[0].y){
             possibleMoves.right = false;
         }
     }
