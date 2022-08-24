@@ -93,7 +93,8 @@ export function move(gameState: GameState): MoveResponse {
     }
 
     // TODO: Step 4 - Find food.
-    var isAbove: boolean = false;
+    if(gameState.board.food.length != 0){
+        var isAbove: boolean = false;
     var isUnder: boolean = false;
     var isRight: boolean = false;
     var isLeft: boolean = false;
@@ -161,7 +162,33 @@ export function move(gameState: GameState): MoveResponse {
         }else if(!(possibleMoves.down) && !(possibleMoves.right)){
             
         }
+    }else if(isAbove){
+        if(possibleMoves.up){
+            possibleMoves.right = false;
+            possibleMoves.left = false;
+            possibleMoves.down = false;
+        }
+    }else if(isRight){
+        if(possibleMoves.right){
+            possibleMoves.up = false;
+            possibleMoves.down = false;
+            possibleMoves.left = false;
+        }
+    }else if(isUnder){
+        if(possibleMoves.down){
+            possibleMoves.up = false;
+            possibleMoves.left = false;
+            possibleMoves.right = false;
+        }
+    }else if(isLeft){
+        if(possibleMoves.left){
+            possibleMoves.right = false;
+            possibleMoves.up = false;
+            possibleMoves.down = false;
+        }
     }
+    }
+    
 
     
 
