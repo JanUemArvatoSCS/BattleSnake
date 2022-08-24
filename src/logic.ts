@@ -56,13 +56,13 @@ export function move(gameState: GameState): MoveResponse {
         distanceToLeftBorder = myHead.x;
     }
 
-    if(distanceToUpperBorder === 0){
+    if(distanceToUpperBorder === 0 || distanceToUpperBorder === -1){
         possibleMoves.up = false;
-    }else if(distanceToLowerBorder === 0){
+    }else if(distanceToLowerBorder === 0 || distanceToLowerBorder === -1){
         possibleMoves.down = false;
-    }else if(distanceToRightBorder === 0){
+    }else if(distanceToRightBorder === 0 || distanceToRightBorder === -1){
         possibleMoves.right = false;
-    }else if(distanceToLeftBorder === 0){
+    }else if(distanceToLeftBorder === 0 ||distanceToLeftBorder === -1){
         possibleMoves.left = false;
     }
 
