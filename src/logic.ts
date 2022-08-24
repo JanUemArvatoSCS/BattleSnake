@@ -45,13 +45,16 @@ export function move(gameState: GameState): MoveResponse {
     const boardWidht: number = gameState.board.width;
     const boardHeight: number = gameState.board.height;
 
-    if(gameState.you.head.x === boardWidht){
+    if(gameState.you.head.x === boardWidht - 1){
         possibleMoves.right = false;
-    }else if(gameState.you.head.x === 0){
+    }
+    if(gameState.you.head.x === 0){
         possibleMoves.left = false;
-    }else if(gameState.you.head.y === boardHeight){
+    }
+    if(gameState.you.head.y === boardHeight - 1){
         possibleMoves.up = false;
-    }else if(gameState.you.head.y === 0){
+    }
+    if(gameState.you.head.y === 0){
         possibleMoves.down = false;
     }
 
