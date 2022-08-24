@@ -93,7 +93,77 @@ export function move(gameState: GameState): MoveResponse {
     }
 
     // TODO: Step 4 - Find food.
-    // Use information in gameState to seek out and find food.
+    var isAbove: boolean = false;
+    var isUnder: boolean = false;
+    var isRight: boolean = false;
+    var isLeft: boolean = false;
+    // calculate food position.
+    if(gameState.you.body[0].x < gameState.board.food[0].x){
+        isRight = true;
+    }else if(gameState.you.body[0].x > gameState.board.food[0].x){
+        isLeft = true;
+    }
+    if(gameState.you.body[0].y < gameState.board.food[0].y){
+        isAbove = true;
+    }else if(gameState.you.body[0].y > gameState.board.food[0].y){
+        isUnder = true;
+    }
+    //calculate priority of options
+    if(isAbove && isLeft){
+        if(possibleMoves.up && possibleMoves.left){
+            possibleMoves.down = false;
+            possibleMoves.right = false;
+        }else if(possibleMoves.up && !(possibleMoves.left)){
+            possibleMoves.down = false;
+            possibleMoves.right = false;
+        }else if(!(possibleMoves.up) && possibleMoves.left){
+            possibleMoves.down = false;
+            possibleMoves.right = false;
+        }else if(!(possibleMoves.up) && !(possibleMoves.left)){
+
+        }
+    }else if(isAbove && isRight){
+        if(possibleMoves.up && possibleMoves.right){
+            possibleMoves.down = false;
+            possibleMoves.left = false;
+        }else if(possibleMoves.up && !(possibleMoves.right)){
+            possibleMoves.down = false;
+            possibleMoves.left = false;
+        }else if(!(possibleMoves.up) && possibleMoves.right){
+            possibleMoves.down = false;
+            possibleMoves.left = false;
+        }else if(!(possibleMoves.up) && !(possibleMoves.right)){
+            
+        }
+    }else if(isUnder && isLeft){
+        if(possibleMoves.down && possibleMoves.left){
+            possibleMoves.up = false;
+            possibleMoves.right = false;
+        }else if(possibleMoves.down && !(possibleMoves.left)){
+            possibleMoves.up = false;
+            possibleMoves.right = false;
+        }else if(!(possibleMoves.down) && possibleMoves.left){
+            possibleMoves.up = false;
+            possibleMoves.right = false;
+        }else if(!(possibleMoves.down) && !(possibleMoves.left)){
+            
+        }
+    }else if(isUnder && isRight){
+        if(possibleMoves.down && possibleMoves.right){
+            possibleMoves.up = false;
+            possibleMoves.right = false;
+        }else if(possibleMoves.down && !(possibleMoves.right)){
+            possibleMoves.up = false;
+            possibleMoves.left = false;
+        }else if(!(possibleMoves.down) && possibleMoves.right){
+            possibleMoves.up = false;
+            possibleMoves.left = false;
+        }else if(!(possibleMoves.down) && !(possibleMoves.right)){
+            
+        }
+    }
+
+    
 
     // Finally, choose a move from the available safe moves.
     // TODO: Step 5 - Select a move to make based on strategy, rather than random.
