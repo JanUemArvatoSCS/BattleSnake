@@ -92,104 +92,121 @@ export function move(gameState: GameState): MoveResponse {
         }
     }
 
+
+    //check for hazard
+    if(gameState.board.hazards.length != 0){
+        for(var index = 0; index < gameState.board.hazards.length; index++){
+            if(gameState.you.body[0].x + 1 === gameState.board.hazards[index].x && gameState.you.body[0].y === gameState.board.hazards[index].y){
+                possibleMoves.right = false;
+            }
+            if(gameState.you.body[0].x - 1 === gameState.board.hazards[index].x && gameState.you.body[0].y === gameState.board.hazards[index].y){
+                possibleMoves.left = false;
+            }
+            if(gameState.you.body[0].y + 1 === gameState.board.hazards[index].y && gameState.you.body[0].x === gameState.board.hazards[index].x){
+                possibleMoves.up = false;
+            }
+            if(gameState.you.body[0].y - 1 === gameState.board.hazards[index].y && gameState.you.body[0].x === gameState.board.hazards[index].x){
+                possibleMoves.down = false;
+            }
+        }
+    }
+
     // TODO: Step 4 - Find food.
     if(gameState.board.food.length != 0){
         var isAbove: boolean = false;
-    var isUnder: boolean = false;
-    var isRight: boolean = false;
-    var isLeft: boolean = false;
-    // calculate food position.
-    if(gameState.you.body[0].x < gameState.board.food[0].x){
-        isRight = true;
-    }else if(gameState.you.body[0].x > gameState.board.food[0].x){
-        isLeft = true;
-    }
-    if(gameState.you.body[0].y < gameState.board.food[0].y){
-        isAbove = true;
-    }else if(gameState.you.body[0].y > gameState.board.food[0].y){
-        isUnder = true;
-    }
-    //calculate priority of options
-    if(isAbove && isLeft){
-        if(possibleMoves.up && possibleMoves.left){
-            possibleMoves.down = false;
-            possibleMoves.right = false;
-        }else if(possibleMoves.up && !(possibleMoves.left)){
-            possibleMoves.down = false;
-            possibleMoves.right = false;
-        }else if(!(possibleMoves.up) && possibleMoves.left){
-            possibleMoves.down = false;
-            possibleMoves.right = false;
-        }else if(!(possibleMoves.up) && !(possibleMoves.left)){
+        var isUnder: boolean = false;
+        var isRight: boolean = false;
+        var isLeft: boolean = false;
+        // calculate food position.
+        if(gameState.you.body[0].x < gameState.board.food[0].x){
+            isRight = true;
+        }else if(gameState.you.body[0].x > gameState.board.food[0].x){
+            isLeft = true;
+        }
+        if(gameState.you.body[0].y < gameState.board.food[0].y){
+            isAbove = true;
+        }else if(gameState.you.body[0].y > gameState.board.food[0].y){
+            isUnder = true;
+        }
+        //calculate priority of options
+        if(isAbove && isLeft){
+            if(possibleMoves.up && possibleMoves.left){
+                possibleMoves.down = false;
+                possibleMoves.right = false;
+            }else if(possibleMoves.up && !(possibleMoves.left)){
+                possibleMoves.down = false;
+                possibleMoves.right = false;
+            }else if(!(possibleMoves.up) && possibleMoves.left){
+                possibleMoves.down = false;
+                possibleMoves.right = false;
+            }else if(!(possibleMoves.up) && !(possibleMoves.left)){
 
-        }
-    }else if(isAbove && isRight){
-        if(possibleMoves.up && possibleMoves.right){
-            possibleMoves.down = false;
-            possibleMoves.left = false;
-        }else if(possibleMoves.up && !(possibleMoves.right)){
-            possibleMoves.down = false;
-            possibleMoves.left = false;
-        }else if(!(possibleMoves.up) && possibleMoves.right){
-            possibleMoves.down = false;
-            possibleMoves.left = false;
-        }else if(!(possibleMoves.up) && !(possibleMoves.right)){
+            }
+        }else if(isAbove && isRight){
+            if(possibleMoves.up && possibleMoves.right){
+                possibleMoves.down = false;
+                possibleMoves.left = false;
+            }else if(possibleMoves.up && !(possibleMoves.right)){
+                possibleMoves.down = false;
+                possibleMoves.left = false;
+            }else if(!(possibleMoves.up) && possibleMoves.right){
+                possibleMoves.down = false;
+                possibleMoves.left = false;
+            }else if(!(possibleMoves.up) && !(possibleMoves.right)){
             
-        }
-    }else if(isUnder && isLeft){
-        if(possibleMoves.down && possibleMoves.left){
-            possibleMoves.up = false;
-            possibleMoves.right = false;
-        }else if(possibleMoves.down && !(possibleMoves.left)){
-            possibleMoves.up = false;
-            possibleMoves.right = false;
-        }else if(!(possibleMoves.down) && possibleMoves.left){
-            possibleMoves.up = false;
-            possibleMoves.right = false;
-        }else if(!(possibleMoves.down) && !(possibleMoves.left)){
+            }
+        }else if(isUnder && isLeft){
+            if(possibleMoves.down && possibleMoves.left){
+                possibleMoves.up = false;
+                possibleMoves.right = false;
+            }else if(possibleMoves.down && !(possibleMoves.left)){
+                possibleMoves.up = false;
+                possibleMoves.right = false;
+            }else if(!(possibleMoves.down) && possibleMoves.left){
+                possibleMoves.up = false;
+                possibleMoves.right = false;
+            }else if(!(possibleMoves.down) && !(possibleMoves.left)){
             
-        }
-    }else if(isUnder && isRight){
-        if(possibleMoves.down && possibleMoves.right){
-            possibleMoves.up = false;
-            possibleMoves.right = false;
-        }else if(possibleMoves.down && !(possibleMoves.right)){
-            possibleMoves.up = false;
-            possibleMoves.left = false;
-        }else if(!(possibleMoves.down) && possibleMoves.right){
-            possibleMoves.up = false;
-            possibleMoves.left = false;
-        }else if(!(possibleMoves.down) && !(possibleMoves.right)){
+            }
+        }else if(isUnder && isRight){
+            if(possibleMoves.down && possibleMoves.right){
+                possibleMoves.up = false;
+                possibleMoves.right = false;
+            }else if(possibleMoves.down && !(possibleMoves.right)){
+                possibleMoves.up = false;
+                possibleMoves.left = false;
+            }else if(!(possibleMoves.down) && possibleMoves.right){
+                possibleMoves.up = false;
+                possibleMoves.left = false;
+            }else if(!(possibleMoves.down) && !(possibleMoves.right)){
             
-        }
-    }else if(isAbove){
-        if(possibleMoves.up){
-            possibleMoves.right = false;
-            possibleMoves.left = false;
-            possibleMoves.down = false;
-        }
-    }else if(isRight){
-        if(possibleMoves.right){
-            possibleMoves.up = false;
-            possibleMoves.down = false;
-            possibleMoves.left = false;
-        }
-    }else if(isUnder){
-        if(possibleMoves.down){
-            possibleMoves.up = false;
-            possibleMoves.left = false;
-            possibleMoves.right = false;
-        }
-    }else if(isLeft){
-        if(possibleMoves.left){
-            possibleMoves.right = false;
-            possibleMoves.up = false;
-            possibleMoves.down = false;
+            }
+        }else if(isAbove){
+            if(possibleMoves.up){
+                possibleMoves.right = false;
+                possibleMoves.left = false;
+                possibleMoves.down = false;
+            }
+        }else if(isRight){
+            if(possibleMoves.right){
+                possibleMoves.up = false;
+                possibleMoves.down = false;
+                possibleMoves.left = false;
+            }
+        }else if(isUnder){
+            if(possibleMoves.down){
+                possibleMoves.up = false;
+                possibleMoves.left = false;
+                possibleMoves.right = false;
+            }
+        }else if(isLeft){
+            if(possibleMoves.left){
+                possibleMoves.right = false;
+                possibleMoves.up = false;
+                possibleMoves.down = false;
+            }
         }
     }
-    }
-    
-
     
 
     // Finally, choose a move from the available safe moves.
