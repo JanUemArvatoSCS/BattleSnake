@@ -28,6 +28,9 @@ export function move(gameState: GameState): MoveResponse {
         right: true
     }
 
+    var foodMode: boolean = false;
+    var loopMode: boolean = false;
+
     // Step 0: Don't let your Battlesnake move back on it's own neck
     const myHead = gameState.you.head
     const myNeck = gameState.you.body[1]
@@ -111,8 +114,18 @@ export function move(gameState: GameState): MoveResponse {
         }
     }
 
+    if(gameState.you.body.length > 4){
+        loopMode = true;
+    }
+
+    //activate foodMode
+    if(gameState.you.health < 40){
+        foodMode = true;
+        loopMode = false;
+    }
+
     // TODO: Step 4 - Find food.
-    if(gameState.board.food.length != 0){
+    if(gameState.board.food.length != 0 && foodMode){
         var isAbove: boolean = false;
         var isUnder: boolean = false;
         var isRight: boolean = false;
@@ -207,8 +220,69 @@ export function move(gameState: GameState): MoveResponse {
             }
         }
     }
-    
 
+    if(loopMode){
+        var head: number[] = [gameState.you.body[0].x, gameState.you.body[0].y];
+        var tail: number[] = [gameState.you.body[gameState.you.body.length - 1].x,  gameState.you.body[gameState.you.body.length - 1].y]
+
+        var differenceHeight = head[1] - tail[1];
+        var differenceWidth = head[0] - tail[0];
+
+        if(differenceHeight < 0){
+            differenceHeight *= -1
+        }
+        var differenceWidth: number = gameState.you.body[0].x - gameState.you.body[gameState.you.length - 1].x;
+        if(differenceHeight < 0){
+            differenceHeight *= -1
+        }
+        
+        var headAboveTail: boolean = false;
+        var headUnderTail: boolean = false;
+        var headRightFromTail: boolean = false;
+        var headLeftFromTail:boolean = false;
+
+        if(head[1] > tail[1]){
+            headAboveTail = true;
+        }else if(head[1] < tail[1]){
+            headUnderTail = true;
+        }
+        if(head[0] > tail[0]){
+            headRightFromTail = true;
+        }else if(head[0] < tail[0]){
+            headLeftFromTail = true;
+        }
+
+        if(differenceHeight < differenceWidth){
+            if(headAboveTail && possibleMoves.up){
+                possibleMoves.right = false;
+                possibleMoves.left = false;
+                possibleMoves.down = false;
+            }else if(headAboveTail && !(possibleMoves.up)){
+
+            }else if(headUnderTail && possibleMoves.down){
+                possibleMoves.right = false;
+                possibleMoves.left = false;
+                possibleMoves.up = false;
+            }else if(headUnderTail && !(possibleMoves.down)){
+
+            }
+        }else if(differenceHeight > differenceWidth){
+            if(headRightFromTail && possibleMoves.right){
+                possibleMoves.up = false;
+                possibleMoves.down = false;
+                possibleMoves.left = false;
+            }else if(headRightFromTail && !(possibleMoves.right)){
+
+            }else if(headLeftFromTail && possibleMoves.left){
+                possibleMoves.up = false;
+                possibleMoves.down = false;
+                possibleMoves.right = false;
+            }else if(headLeftFromTail && !(possibleMoves.left)){
+
+            }
+        }
+    }
+    
     // Finally, choose a move from the available safe moves.
     // TODO: Step 5 - Select a move to make based on strategy, rather than random.
     const safeMoves = Object.keys(possibleMoves).filter(key => possibleMoves[key])
