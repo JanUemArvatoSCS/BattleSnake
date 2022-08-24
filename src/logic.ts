@@ -75,7 +75,22 @@ export function move(gameState: GameState): MoveResponse {
     }
 
     // TODO: Step 3 - Don't collide with others.
-    // Use information in gameState to prevent your Battlesnake from colliding with others.
+    for(var index = 0; index < gameState.board.snakes.length; index++){
+        for(var index2 = 0; index2 < gameState.board.snakes[index].body.length; index2++){
+            if(gameState.you.body[0].y === gameState.board.snakes[index].body[index2].y + 1 && gameState.you.body[0].x === gameState.board.snakes[index].body[index2].x){
+                possibleMoves.up = false;            
+            }
+            if(gameState.you.body[0].y === gameState.board.snakes[index].body[index2].y - 1 && gameState.you.body[0].x === gameState.board.snakes[index].body[index2].x){
+                possibleMoves.down = false;            
+            }
+            if(gameState.you.body[0].x === gameState.board.snakes[index].body[index2].x + 1 && gameState.you.body[0].y === gameState.board.snakes[index].body[index2].y){
+                possibleMoves.up = false;            
+            }
+            if(gameState.you.body[0].x === gameState.board.snakes[index].body[index2].x - 1 && gameState.you.body[0].y === gameState.board.snakes[index].body[index2].y){
+                possibleMoves.up = false;            
+            }
+        }
+    }
 
     // TODO: Step 4 - Find food.
     // Use information in gameState to seek out and find food.
