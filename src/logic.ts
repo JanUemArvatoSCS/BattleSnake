@@ -87,7 +87,7 @@ export function move(gameState: GameState): MoveResponse {
                 possibleMoves.right = false;            
             }
             if(gameState.you.body[0].x === gameState.board.snakes[index].body[index2].x - 1 && gameState.you.body[0].y === gameState.board.snakes[index].body[index2].y){
-                possibleMoves.left = false;            
+                possibleMoves.left  = false;            
             }
         }
     }
