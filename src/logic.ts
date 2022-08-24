@@ -84,10 +84,10 @@ export function move(gameState: GameState): MoveResponse {
                 possibleMoves.down = false;            
             }
             if(gameState.you.body[0].x === gameState.board.snakes[index].body[index2].x + 1 && gameState.you.body[0].y === gameState.board.snakes[index].body[index2].y){
-                possibleMoves.up = false;            
+                possibleMoves.right = false;            
             }
             if(gameState.you.body[0].x === gameState.board.snakes[index].body[index2].x - 1 && gameState.you.body[0].y === gameState.board.snakes[index].body[index2].y){
-                possibleMoves.up = false;            
+                possibleMoves.left = false;            
             }
         }
     }
