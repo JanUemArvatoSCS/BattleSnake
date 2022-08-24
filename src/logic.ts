@@ -5,7 +5,7 @@ export function info(): InfoResponse {
     const response: InfoResponse = {
         apiversion: "1",
         author: "",
-        color: "#ff19e0",
+        color: "#dd19e0",
         head: "default",
         tail: "default"
     }
