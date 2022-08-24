@@ -47,11 +47,11 @@ export function move(gameState: GameState): MoveResponse {
     let distanceToLeftBorder: number = -1;
 
     if(possibleMoves.up){
-        distanceToUpperBorder = gameState.board.height - myHead.y;
+        distanceToUpperBorder = gameState.board.height - (myHead.y - 1);
     }else if(possibleMoves.down){
         distanceToLowerBorder = myHead.y;
     }else if(possibleMoves.right){
-        distanceToRightBorder = gameState.board.width - myHead.x;
+        distanceToRightBorder = gameState.board.width - (myHead.x - 1);
     }else if(possibleMoves.left){
         distanceToLeftBorder = myHead.x;
     }
