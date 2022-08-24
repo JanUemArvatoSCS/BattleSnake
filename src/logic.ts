@@ -66,6 +66,15 @@ export function move(gameState: GameState): MoveResponse {
         possibleMoves.left = false;
     }
 
+    if(distanceToUpperBorder > distanceToLowerBorder){
+        possibleMoves.down = false;
+    }else if(distanceToLowerBorder > distanceToUpperBorder){
+        possibleMoves.up = false;
+    }else if(distanceToRightBorder > distanceToLeftBorder){
+        possibleMoves.left = false;
+    }else if(distanceToLeftBorder > distanceToRightBorder){
+        possibleMoves.right = false;
+    }
 
 
 
