@@ -34,7 +34,7 @@ export function move(gameState: GameState): MoveResponse {
 
     var playField: fieldHorizontal[] = initPlayField(gameState);
 
-    var counter: number = 10;
+    var counter: number = 3;
 
     while (counter != 0){
         playField = flatFieldArray(playField);
