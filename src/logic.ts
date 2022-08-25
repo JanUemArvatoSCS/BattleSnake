@@ -5,7 +5,7 @@ export function info(): InfoResponse {
     const response: InfoResponse = {
         apiversion: "1",
         author: "",
-        color: "#dd19e0",
+        color: "#ff19e0",
         head: "default",
         tail: "default"
     }
@@ -28,261 +28,31 @@ export function move(gameState: GameState): MoveResponse {
         right: true
     }
 
-    var foodMode: boolean = false;
     var loopMode: boolean = false;
+    var eatMode: boolean = false;
+    var attackMode: boolean = false;
+
+    var playField: fieldHorizontal[] = initPlayField(gameState);
+
+
 
     // Step 0: Don't let your Battlesnake move back on it's own neck
-    const myHead = gameState.you.head
-    const myNeck = gameState.you.body[1]
-    if (myNeck.x < myHead.x) {
-        possibleMoves.left = false
-    } else if (myNeck.x > myHead.x) {
-        possibleMoves.right = false
-    } else if (myNeck.y < myHead.y) {
-        possibleMoves.down = false
-    } else if (myNeck.y > myHead.y) {
-        possibleMoves.up = false
-    }
 
     // TODO: Step 1 - Don't hit walls.
-    const boardWidht: number = gameState.board.width;
-    const boardHeight: number = gameState.board.height;
-
-    if(gameState.you.head.x === boardWidht - 1){
-        possibleMoves.right = false;
-    }
-    if(gameState.you.head.x === 0){
-        possibleMoves.left = false;
-    }
-    if(gameState.you.head.y === boardHeight - 1){
-        possibleMoves.up = false;
-    }
-    if(gameState.you.head.y === 0){
-        possibleMoves.down = false;
-    }
+    // Use information in gameState to prevent your Battlesnake from moving beyond the boundaries of the board.
+    // const boardWidth = gameState.board.width
+    // const boardHeight = gameState.board.height
 
     // TODO: Step 2 - Don't hit yourself.
-    for(var index = 1; index < gameState.you.body.length; index++){
-        if(gameState.you.body[index].y === gameState.you.body[0].y - 1 && gameState.you.body[index].x === gameState.you.body[0].x){
-            possibleMoves.down = false;
-        }
-        if(gameState.you.body[index].y === gameState.you.body[0].y + 1 && gameState.you.body[index].x === gameState.you.body[0].x){
-            possibleMoves.up = false;
-        }
-        if(gameState.you.body[index].x === gameState.you.body[0].x - 1 && gameState.you.body[index].y === gameState.you.body[0].y){
-            possibleMoves.left = false;
-        }
-        if(gameState.you.body[index].x === gameState.you.body[0].x + 1 && gameState.you.body[index].y === gameState.you.body[0].y){
-            possibleMoves.right = false;
-        }
-    }
+    // Use information in gameState to prevent your Battlesnake from colliding with itself.
+    // const mybody = gameState.you.body
 
     // TODO: Step 3 - Don't collide with others.
-    for(var index = 0; index < gameState.board.snakes.length; index++){
-        for(var index2 = 0; index2 < gameState.board.snakes[index].body.length; index2++){
-            if(gameState.you.body[0].y + 1 === gameState.board.snakes[index].body[index2].y && gameState.you.body[0].x === gameState.board.snakes[index].body[index2].x){
-                possibleMoves.up = false;            
-            }
-            if(gameState.you.body[0].y - 1 === gameState.board.snakes[index].body[index2].y && gameState.you.body[0].x === gameState.board.snakes[index].body[index2].x){
-                possibleMoves.down = false;            
-            }
-            if(gameState.you.body[0].x + 1 === gameState.board.snakes[index].body[index2].x && gameState.you.body[0].y === gameState.board.snakes[index].body[index2].y){
-                possibleMoves.right = false;            
-            }
-            if(gameState.you.body[0].x - 1 === gameState.board.snakes[index].body[index2].x && gameState.you.body[0].y === gameState.board.snakes[index].body[index2].y){
-                possibleMoves.left  = false;            
-            }
-        }
-    }
-
-
-    //check for hazard
-    if(gameState.board.hazards.length != 0){
-        for(var index = 0; index < gameState.board.hazards.length; index++){
-            if(gameState.you.body[0].x + 1 === gameState.board.hazards[index].x && gameState.you.body[0].y === gameState.board.hazards[index].y){
-                possibleMoves.right = false;
-            }
-            if(gameState.you.body[0].x - 1 === gameState.board.hazards[index].x && gameState.you.body[0].y === gameState.board.hazards[index].y){
-                possibleMoves.left = false;
-            }
-            if(gameState.you.body[0].y + 1 === gameState.board.hazards[index].y && gameState.you.body[0].x === gameState.board.hazards[index].x){
-                possibleMoves.up = false;
-            }
-            if(gameState.you.body[0].y - 1 === gameState.board.hazards[index].y && gameState.you.body[0].x === gameState.board.hazards[index].x){
-                possibleMoves.down = false;
-            }
-        }
-    }
-
-    if(gameState.you.body.length > 4){
-        loopMode = true;
-    }
-
-    //activate foodMode
-    if(gameState.you.health < 40){
-        foodMode = true;
-        loopMode = false;
-    }
+    // Use information in gameState to prevent your Battlesnake from colliding with others.
 
     // TODO: Step 4 - Find food.
-    if(gameState.board.food.length != 0 && foodMode){
-        var isAbove: boolean = false;
-        var isUnder: boolean = false;
-        var isRight: boolean = false;
-        var isLeft: boolean = false;
-        // calculate food position.
-        if(gameState.you.body[0].x < gameState.board.food[0].x){
-            isRight = true;
-        }else if(gameState.you.body[0].x > gameState.board.food[0].x){
-            isLeft = true;
-        }
-        if(gameState.you.body[0].y < gameState.board.food[0].y){
-            isAbove = true;
-        }else if(gameState.you.body[0].y > gameState.board.food[0].y){
-            isUnder = true;
-        }
-        //calculate priority of options
-        if(isAbove && isLeft){
-            if(possibleMoves.up && possibleMoves.left){
-                possibleMoves.down = false;
-                possibleMoves.right = false;
-            }else if(possibleMoves.up && !(possibleMoves.left)){
-                possibleMoves.down = false;
-                possibleMoves.right = false;
-            }else if(!(possibleMoves.up) && possibleMoves.left){
-                possibleMoves.down = false;
-                possibleMoves.right = false;
-            }else if(!(possibleMoves.up) && !(possibleMoves.left)){
+    // Use information in gameState to seek out and find food.
 
-            }
-        }else if(isAbove && isRight){
-            if(possibleMoves.up && possibleMoves.right){
-                possibleMoves.down = false;
-                possibleMoves.left = false;
-            }else if(possibleMoves.up && !(possibleMoves.right)){
-                possibleMoves.down = false;
-                possibleMoves.left = false;
-            }else if(!(possibleMoves.up) && possibleMoves.right){
-                possibleMoves.down = false;
-                possibleMoves.left = false;
-            }else if(!(possibleMoves.up) && !(possibleMoves.right)){
-            
-            }
-        }else if(isUnder && isLeft){
-            if(possibleMoves.down && possibleMoves.left){
-                possibleMoves.up = false;
-                possibleMoves.right = false;
-            }else if(possibleMoves.down && !(possibleMoves.left)){
-                possibleMoves.up = false;
-                possibleMoves.right = false;
-            }else if(!(possibleMoves.down) && possibleMoves.left){
-                possibleMoves.up = false;
-                possibleMoves.right = false;
-            }else if(!(possibleMoves.down) && !(possibleMoves.left)){
-            
-            }
-        }else if(isUnder && isRight){
-            if(possibleMoves.down && possibleMoves.right){
-                possibleMoves.up = false;
-                possibleMoves.right = false;
-            }else if(possibleMoves.down && !(possibleMoves.right)){
-                possibleMoves.up = false;
-                possibleMoves.left = false;
-            }else if(!(possibleMoves.down) && possibleMoves.right){
-                possibleMoves.up = false;
-                possibleMoves.left = false;
-            }else if(!(possibleMoves.down) && !(possibleMoves.right)){
-            
-            }
-        }else if(isAbove){
-            if(possibleMoves.up){
-                possibleMoves.right = false;
-                possibleMoves.left = false;
-                possibleMoves.down = false;
-            }
-        }else if(isRight){
-            if(possibleMoves.right){
-                possibleMoves.up = false;
-                possibleMoves.down = false;
-                possibleMoves.left = false;
-            }
-        }else if(isUnder){
-            if(possibleMoves.down){
-                possibleMoves.up = false;
-                possibleMoves.left = false;
-                possibleMoves.right = false;
-            }
-        }else if(isLeft){
-            if(possibleMoves.left){
-                possibleMoves.right = false;
-                possibleMoves.up = false;
-                possibleMoves.down = false;
-            }
-        }
-    }
-
-    if(loopMode){
-        var head: number[] = [gameState.you.body[0].x, gameState.you.body[0].y];
-        var tail: number[] = [gameState.you.body[gameState.you.body.length - 1].x,  gameState.you.body[gameState.you.body.length - 1].y]
-
-        var differenceHeight = head[1] - tail[1];
-        var differenceWidth = head[0] - tail[0];
-
-        if(differenceHeight < 0){
-            differenceHeight *= -1
-        }
-        var differenceWidth: number = gameState.you.body[0].x - gameState.you.body[gameState.you.length - 1].x;
-        if(differenceHeight < 0){
-            differenceHeight *= -1
-        }
-        
-        var headAboveTail: boolean = false;
-        var headUnderTail: boolean = false;
-        var headRightFromTail: boolean = false;
-        var headLeftFromTail:boolean = false;
-
-        if(head[1] > tail[1]){
-            headAboveTail = true;
-        }else if(head[1] < tail[1]){
-            headUnderTail = true;
-        }
-        if(head[0] > tail[0]){
-            headRightFromTail = true;
-        }else if(head[0] < tail[0]){
-            headLeftFromTail = true;
-        }
-
-        if(differenceHeight < differenceWidth){
-            if(headAboveTail && possibleMoves.up){
-                possibleMoves.right = false;
-                possibleMoves.left = false;
-                possibleMoves.down = false;
-            }else if(headAboveTail && !(possibleMoves.up)){
-
-            }else if(headUnderTail && possibleMoves.down){
-                possibleMoves.right = false;
-                possibleMoves.left = false;
-                possibleMoves.up = false;
-            }else if(headUnderTail && !(possibleMoves.down)){
-
-            }
-        }else if(differenceHeight > differenceWidth){
-            if(headRightFromTail && possibleMoves.right){
-                possibleMoves.up = false;
-                possibleMoves.down = false;
-                possibleMoves.left = false;
-            }else if(headRightFromTail && !(possibleMoves.right)){
-
-            }else if(headLeftFromTail && possibleMoves.left){
-                possibleMoves.up = false;
-                possibleMoves.down = false;
-                possibleMoves.right = false;
-            }else if(headLeftFromTail && !(possibleMoves.left)){
-
-            }
-        }
-    }
-    
     // Finally, choose a move from the available safe moves.
     // TODO: Step 5 - Select a move to make based on strategy, rather than random.
     const safeMoves = Object.keys(possibleMoves).filter(key => possibleMoves[key])
@@ -291,6 +61,74 @@ export function move(gameState: GameState): MoveResponse {
     }
 
     console.log(`${gameState.game.id} MOVE ${gameState.turn}: ${response.move}`)
-    return response;
+    return response
+}
 
+interface fieldHorizontal{
+    fieldsAbove: fieldVertical[];
+}
+
+interface fieldVertical{
+    score: number;
+    occupied: boolean;
+}
+
+function initPlayField(gameState: GameState): fieldHorizontal[]{
+
+    var fieldWidth: number = gameState.board.width;
+    var fieldHeight: number = gameState.board.height;
+
+    var hazardWalls = gameState.board.hazards;
+    var otherSnakes = gameState.board.snakes;
+    var food = gameState.board.food;
+
+    var playField: fieldHorizontal[] = new Array();
+
+    for(var indexForWidth: number = 0; indexForWidth < fieldWidth; indexForWidth++){
+        var currentField: fieldHorizontal;
+        var verticalFields: fieldVertical[] = new Array;
+        for(var indexForHeight: number = 0; indexForHeight < fieldHeight; indexForHeight++){
+            var tmpField: fieldVertical = {occupied: false, score: 100}
+            verticalFields.push(tmpField);
+        }
+        currentField = {fieldsAbove: verticalFields};
+        playField.push(currentField);
+    }
+
+    if(hazardWalls.length != 0){
+        for(var indexForHazardArray:number = 0; indexForHazardArray < hazardWalls.length; indexForHazardArray++){
+            playField[hazardWalls[indexForHazardArray].x].fieldsAbove[hazardWalls[indexForHazardArray].y].occupied = true;
+            playField[hazardWalls[indexForHazardArray].x].fieldsAbove[hazardWalls[indexForHazardArray].y].score = 0;
+        }
+    }
+
+    if(food.length != 0){
+        for(var indexForFoodArray = 0; indexForFoodArray < food.length; indexForFoodArray++){
+            playField[food[indexForFoodArray].x].fieldsAbove[food[indexForFoodArray].y].score = 500;
+        }
+    }
+
+    if(otherSnakes.length != 0){
+        for(var indexForSnakeArray:number = 0; indexForSnakeArray < otherSnakes.length; indexForSnakeArray++){
+            for(var indexForSnakeBody: number = 0; indexForSnakeBody < otherSnakes[indexForSnakeArray].body.length; indexForSnakeBody++){
+                playField[otherSnakes[indexForSnakeArray].body[indexForSnakeBody].x].fieldsAbove[otherSnakes[indexForSnakeArray].body[indexForSnakeBody].y].occupied = true;
+                playField[otherSnakes[indexForSnakeArray].body[indexForSnakeBody].x].fieldsAbove[otherSnakes[indexForSnakeArray].body[indexForSnakeBody].y].score = -100;
+            }
+        }
+    }
+
+    playField = flatFieldArray(playField);
+    return playField;
+}
+
+
+function flatFieldArray(playField: fieldHorizontal[]): fieldHorizontal[]{
+    
+    for(var indexForWidth: number = 0; indexForWidth < playField.length; indexForWidth++){
+        for(var indexForHeight: number = 0; indexForHeight < playField[indexForWidth].fieldsAbove.length; indexForHeight++){
+            if(indexForWidth > 0 && indexForWidth < playField.length - 1){
+                
+            }
+        }
+    }
 }
