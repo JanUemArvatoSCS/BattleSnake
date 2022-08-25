@@ -104,13 +104,13 @@ function initPlayField(gameState: GameState): fieldHorizontal[]{
     if(hazardWalls.length != 0){
         for(var indexForHazardArray:number = 0; indexForHazardArray < hazardWalls.length; indexForHazardArray++){
             playField[hazardWalls[indexForHazardArray].x].fieldsAbove[hazardWalls[indexForHazardArray].y].occupied = true;
-            playField[hazardWalls[indexForHazardArray].x].fieldsAbove[hazardWalls[indexForHazardArray].y].score = -1000;
+            playField[hazardWalls[indexForHazardArray].x].fieldsAbove[hazardWalls[indexForHazardArray].y].score = -100;
         }
     }
 
     if(food.length != 0){
         for(var indexForFoodArray = 0; indexForFoodArray < food.length; indexForFoodArray++){
-            playField[food[indexForFoodArray].x].fieldsAbove[food[indexForFoodArray].y].score = 2000;
+            playField[food[indexForFoodArray].x].fieldsAbove[food[indexForFoodArray].y].score = 200;
         }
     }
 
@@ -118,12 +118,11 @@ function initPlayField(gameState: GameState): fieldHorizontal[]{
         for(var indexForSnakeArray:number = 0; indexForSnakeArray < otherSnakes.length; indexForSnakeArray++){
             for(var indexForSnakeBody: number = 0; indexForSnakeBody < otherSnakes[indexForSnakeArray].body.length; indexForSnakeBody++){
                 playField[otherSnakes[indexForSnakeArray].body[indexForSnakeBody].x].fieldsAbove[otherSnakes[indexForSnakeArray].body[indexForSnakeBody].y].occupied = true;
-                playField[otherSnakes[indexForSnakeArray].body[indexForSnakeBody].x].fieldsAbove[otherSnakes[indexForSnakeArray].body[indexForSnakeBody].y].score = -1000;
+                playField[otherSnakes[indexForSnakeArray].body[indexForSnakeBody].x].fieldsAbove[otherSnakes[indexForSnakeArray].body[indexForSnakeBody].y].score = -110;
             }
         }
     }
 
-    playField = flatFieldArray(playField);
     return playField;
 }
 
