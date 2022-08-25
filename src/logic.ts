@@ -41,27 +41,26 @@ export function move(gameState: GameState): MoveResponse {
         counter--;
     }
 
+    var bestMove: string = calculateBestMove(gameState, playField);
 
+    if(bestMove === "UP"){
+        possibleMoves.down = false;
+        possibleMoves.left = false;
+        possibleMoves.right = false;
+    }else if(bestMove === "DOWN"){
+        possibleMoves.up = false;
+        possibleMoves.left = false;
+        possibleMoves.right = false;
+    }else if(bestMove === "LEFT"){
+        possibleMoves.right = false;
+        possibleMoves.up = false;
+        possibleMoves.down = false;
+    }else if(bestMove === "RIGHT"){
+        possibleMoves.left = false;
+        possibleMoves.up = false;
+        possibleMoves.down = false;
+    }
 
-    // Step 0: Don't let your Battlesnake move back on it's own neck
-
-    // TODO: Step 1 - Don't hit walls.
-    // Use information in gameState to prevent your Battlesnake from moving beyond the boundaries of the board.
-    // const boardWidth = gameState.board.width
-    // const boardHeight = gameState.board.height
-
-    // TODO: Step 2 - Don't hit yourself.
-    // Use information in gameState to prevent your Battlesnake from colliding with itself.
-    // const mybody = gameState.you.body
-
-    // TODO: Step 3 - Don't collide with others.
-    // Use information in gameState to prevent your Battlesnake from colliding with others.
-
-    // TODO: Step 4 - Find food.
-    // Use information in gameState to seek out and find food.
-
-    // Finally, choose a move from the available safe moves.
-    // TODO: Step 5 - Select a move to make based on strategy, rather than random.
     const safeMoves = Object.keys(possibleMoves).filter(key => possibleMoves[key])
     const response: MoveResponse = {
         move: safeMoves[Math.floor(Math.random() * safeMoves.length)],
@@ -271,14 +270,78 @@ function calculateBestMove(gameState: GameState, playField: fieldHorizontal[]): 
     var returnFeedback: string = "";
 
     if(moveUp && moveDown && moveLeft && moveRight){
+        var up: number = checkFieldAbove(positionOfHead, playField);
+        var left: number = checkFieldLeft(positionOfHead, playField);
+        var right: number = checkFieldRight(positionOfHead, playField);
+        var down: number = checkFieldBelow(positionOfHead, playField);
 
+        var max: number = Math.max(down, up, right, left);
+
+        if(max === down){
+            returnFeedback = "DOWN";
+        }else if(max === up){
+            returnFeedback = "UP";
+        }else if(max === right){
+            returnFeedback = "RIGHT";
+        }else if(max === left){
+            returnFeedback = "LEFT";
+        }
     }else if(moveUp && moveDown && moveRight){
+        var down: number = checkFieldBelow(positionOfHead, playField);
+        var up: number = checkFieldAbove(positionOfHead, playField);
+        var right: number = checkFieldRight(positionOfHead, playField);
 
+        var max: number = Math.max(down, up, right);
+
+        if(max === down){
+            returnFeedback = "DOWN";
+        }else if(max === up){
+            returnFeedback = "UP";
+        }else if(max === right){
+            returnFeedback = "RIGHT";
+        }
     }else if(moveUp && moveDown && moveLeft){
+        var down: number = checkFieldBelow(positionOfHead, playField);
+        var up: number = checkFieldAbove(positionOfHead, playField);
+        var left: number = checkFieldLeft(positionOfHead, playField);
 
+        var max: number = Math.max(down, up, left);
+
+        if(max === down){
+            returnFeedback = "DOWN";
+        }else if(max === up){
+            returnFeedback = "UP";
+        }else if(max === left){
+            returnFeedback = "LEFT";
+        }
     }else if(moveUp && moveLeft && moveRight){
+        var up: number = checkFieldAbove(positionOfHead, playField);
+        var left: number = checkFieldLeft(positionOfHead, playField);
+        var right: number = checkFieldRight(positionOfHead, playField);
 
+        var max: number = Math.max(up, left, right);
+
+        if(max === up){
+            returnFeedback = "UP";
+        }else if(max === left){
+            returnFeedback = "LEFT";
+        }else if(max === right){
+            returnFeedback = "RIGHT";
+        }
     }else if(moveDown && moveLeft && moveRight){
+        var down: number = checkFieldBelow(positionOfHead, playField);
+        var left: number = checkFieldLeft(positionOfHead, playField);
+        var right: number = checkFieldRight(positionOfHead, playField);
+
+        var max: number = Math.max(down, left, right);
+
+        if(max === down){
+            returnFeedback = "DOWN";
+        }else if(max === left){
+            returnFeedback = "LEFT";
+        }else if(max === right){
+            returnFeedback = "RIGHT";
+        }
         
     }else if(moveUp && moveDown){
         var up: number = checkFieldAbove(positionOfHead, playField);
@@ -307,6 +370,8 @@ function calculateBestMove(gameState: GameState, playField: fieldHorizontal[]): 
     }else if(moveRight){
         returnFeedback = "RIGHT"
     }
+
+    return returnFeedback;
 }
 
 function checkFieldAbove(head: Coord, playField: fieldHorizontal[]): number{
