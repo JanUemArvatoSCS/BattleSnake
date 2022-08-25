@@ -104,13 +104,13 @@ function initPlayField(gameState: GameState): fieldHorizontal[]{
     if(hazardWalls.length != 0){
         for(var indexForHazardArray:number = 0; indexForHazardArray < hazardWalls.length; indexForHazardArray++){
             playField[hazardWalls[indexForHazardArray].x].fieldsAbove[hazardWalls[indexForHazardArray].y].occupied = true;
-            playField[hazardWalls[indexForHazardArray].x].fieldsAbove[hazardWalls[indexForHazardArray].y].score = 0;
+            playField[hazardWalls[indexForHazardArray].x].fieldsAbove[hazardWalls[indexForHazardArray].y].score = -1000;
         }
     }
 
     if(food.length != 0){
         for(var indexForFoodArray = 0; indexForFoodArray < food.length; indexForFoodArray++){
-            playField[food[indexForFoodArray].x].fieldsAbove[food[indexForFoodArray].y].score = 500;
+            playField[food[indexForFoodArray].x].fieldsAbove[food[indexForFoodArray].y].score = 2000;
         }
     }
 
@@ -376,7 +376,7 @@ function calculateBestMove(gameState: GameState, playField: fieldHorizontal[]): 
 
 function checkFieldAbove(head: Coord, playField: fieldHorizontal[]): number{
     if(playField[head.x].fieldsAbove[head.y + 1].occupied){
-        return -1111;
+        return -2000;
     }else{
         return playField[head.x].fieldsAbove[head.y + 1].score;
     }
@@ -384,7 +384,7 @@ function checkFieldAbove(head: Coord, playField: fieldHorizontal[]): number{
 
 function checkFieldBelow(head: Coord, playField: fieldHorizontal[]): number{
     if(playField[head.x].fieldsAbove[head.y - 1].occupied){
-        return -1111;
+        return -2000;
     }else{
         return playField[head.x].fieldsAbove[head.y - 1].score;
     }
@@ -392,7 +392,7 @@ function checkFieldBelow(head: Coord, playField: fieldHorizontal[]): number{
 
 function checkFieldLeft(head: Coord, playField: fieldHorizontal[]): number{
     if(playField[head.x - 1].fieldsAbove[head.y].occupied){
-        return -1111;
+        return -2000;
     }else{
         return playField[head.x - 1].fieldsAbove[head.y].score;
     }
@@ -400,7 +400,7 @@ function checkFieldLeft(head: Coord, playField: fieldHorizontal[]): number{
 
 function checkFieldRight(head: Coord, playField: fieldHorizontal[]): number{
     if(playField[head.x + 1].fieldsAbove[head.y].occupied){
-        return -1111;
+        return -2000;
     }else{
         return playField[head.x + 1].fieldsAbove[head.y].score;
     }
