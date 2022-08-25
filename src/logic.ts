@@ -1,4 +1,4 @@
-import { InfoResponse, GameState, MoveResponse, Game } from "./types"
+import {Coord, InfoResponse, GameState, MoveResponse, Game } from "./types"
 
 export function info(): InfoResponse {
     console.log("INFO")
@@ -33,6 +33,13 @@ export function move(gameState: GameState): MoveResponse {
     var attackMode: boolean = false;
 
     var playField: fieldHorizontal[] = initPlayField(gameState);
+
+    var counter: number = 10;
+
+    while (counter != 0){
+        playField = flatFieldArray(playField);
+        counter--;
+    }
 
 
 
@@ -121,7 +128,6 @@ function initPlayField(gameState: GameState): fieldHorizontal[]{
     return playField;
 }
 
-
 function flatFieldArray(playField: fieldHorizontal[]): fieldHorizontal[]{
 
     var rightFieldAvailable: boolean = true;
@@ -204,6 +210,22 @@ function flatFieldArray(playField: fieldHorizontal[]): fieldHorizontal[]{
 
                 averageVal = (scoreOfCurrentField + scoreOfLeftField + scoreOfUpperField + scoreOfLowerField) / 4;
 
+            }else if(upperFieldAvailable && leftFieldAvailable && rightFieldAvailable){
+                var scoreOfLeftField: number = playField[indexForWidth - 1].fieldsAbove[indexForHeight].score;
+                var scoreOfUpperField: number = playField[indexForWidth].fieldsAbove[indexForHeight + 1].score;
+                var scoreOfRightField: number = playField[indexForWidth + 1].fieldsAbove[indexForHeight].score;
+
+                var scoreOfCurrentField: number = playField[indexForWidth].fieldsAbove[indexForHeight].score;
+
+                averageVal = (scoreOfCurrentField + scoreOfLeftField + scoreOfUpperField + scoreOfRightField) / 4;
+            }else if(leftFieldAvailable && rightFieldAvailable && lowerFieldAvailable){
+                var scoreOfLeftField: number = playField[indexForWidth - 1].fieldsAbove[indexForHeight].score;
+                var scoreOfRightField: number = playField[indexForWidth + 1].fieldsAbove[indexForHeight].score;
+                var scoreOfLowerField: number = playField[indexForWidth].fieldsAbove[indexForHeight - 1].score;
+
+                var scoreOfCurrentField: number = playField[indexForWidth].fieldsAbove[indexForHeight].score;
+
+                averageVal = (scoreOfCurrentField + scoreOfLeftField + scoreOfRightField + scoreOfLowerField) / 4;
             }
 
             playField[indexForWidth].fieldsAbove[indexForHeight].score = averageVal;
@@ -211,4 +233,110 @@ function flatFieldArray(playField: fieldHorizontal[]): fieldHorizontal[]{
     }
 
     return playField;
+}
+
+function calculateBestMove(gameState: GameState, playField: fieldHorizontal[]): string{
+
+    var positionOfHead: Coord = gameState.you.head;
+    var positionOfNeck: Coord = gameState.you.body[1];
+
+    var moveUp: boolean = true;
+    var moveDown: boolean = true;
+    var moveRight: boolean = true;
+    var moveLeft: boolean = true;
+
+    if(positionOfHead.x > positionOfNeck.x){
+        moveRight = false;
+    }else if(positionOfHead.x < positionOfNeck.x){
+        moveLeft = false;
+    }else if(positionOfHead.y > positionOfNeck.y){
+        moveDown = false;
+    }else if(positionOfHead.y < positionOfNeck.y){
+        moveUp = false;
+    }
+
+    if(positionOfHead.x === gameState.board.width - 1){
+        moveRight = false;
+    }
+    if(positionOfHead.x === 0){
+        moveLeft = false;
+    }
+    if(positionOfHead.y === gameState.board.height - 1){
+        moveUp = false;
+    }
+    if(positionOfHead.y === 0){
+        moveDown = false;
+    }
+
+    var returnFeedback: string = "";
+
+    if(moveUp && moveDown && moveLeft && moveRight){
+
+    }else if(moveUp && moveDown && moveRight){
+
+    }else if(moveUp && moveDown && moveLeft){
+
+    }else if(moveUp && moveLeft && moveRight){
+
+    }else if(moveDown && moveLeft && moveRight){
+        
+    }else if(moveUp && moveDown){
+        var up: number = checkFieldAbove(positionOfHead, playField);
+        var down: number = checkFieldBelow(positionOfHead, playField);
+
+        if(up < down){
+            returnFeedback = "UP";
+        }else{
+            returnFeedback = "DOWN";
+        }
+    }else if(moveLeft && moveRight){
+        var left: number = checkFieldLeft(positionOfHead, playField);
+        var right: number = checkFieldRight(positionOfHead, playField);
+
+        if(left < right){
+            returnFeedback = "LEFT";
+        }else{
+            returnFeedback = "RIGHT";
+        }
+    }else if(moveUp){
+        returnFeedback = "UP";
+    }else if(moveDown){
+        returnFeedback = "DOWN";
+    }else if(moveLeft){
+        returnFeedback = "LEFT";
+    }else if(moveRight){
+        returnFeedback = "RIGHT"
+    }
+}
+
+function checkFieldAbove(head: Coord, playField: fieldHorizontal[]): number{
+    if(playField[head.x].fieldsAbove[head.y + 1].occupied){
+        return -1111;
+    }else{
+        return playField[head.x].fieldsAbove[head.y + 1].score;
+    }
+}
+
+function checkFieldBelow(head: Coord, playField: fieldHorizontal[]): number{
+    if(playField[head.x].fieldsAbove[head.y - 1].occupied){
+        return -1111;
+    }else{
+        return playField[head.x].fieldsAbove[head.y - 1].score;
+    }
+}
+
+function checkFieldLeft(head: Coord, playField: fieldHorizontal[]): number{
+    if(playField[head.x - 1].fieldsAbove[head.y].occupied){
+        return -1111;
+    }else{
+        return playField[head.x - 1].fieldsAbove[head.y].score;
+    }
+}
+
+function checkFieldRight(head: Coord, playField: fieldHorizontal[]): number{
+    if(playField[head.x + 1].fieldsAbove[head.y].occupied){
+        return -1111;
+    }else{
+        return playField[head.x + 1].fieldsAbove[head.y].score;
+    }
 }
