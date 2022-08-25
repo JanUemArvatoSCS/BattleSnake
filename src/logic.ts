@@ -123,12 +123,92 @@ function initPlayField(gameState: GameState): fieldHorizontal[]{
 
 
 function flatFieldArray(playField: fieldHorizontal[]): fieldHorizontal[]{
+
+    var rightFieldAvailable: boolean = true;
+    var leftFieldAvailable: boolean = true;
+    var upperFieldAvailable: boolean = true;
+    var lowerFieldAvailable: boolean = true;
     
     for(var indexForWidth: number = 0; indexForWidth < playField.length; indexForWidth++){
         for(var indexForHeight: number = 0; indexForHeight < playField[indexForWidth].fieldsAbove.length; indexForHeight++){
-            if(indexForWidth > 0 && indexForWidth < playField.length - 1){
-                
+            if(indexForWidth === 0){
+                leftFieldAvailable = false;
+            }else if(indexForWidth === playField.length - 1){
+                rightFieldAvailable = false;
             }
+            if(indexForHeight === 0){
+                lowerFieldAvailable = false;
+            }else if(indexForHeight === playField[indexForWidth].fieldsAbove.length - 1){
+                upperFieldAvailable = false;
+            }
+
+            var averageVal: number = 100;
+
+            if(rightFieldAvailable && leftFieldAvailable && upperFieldAvailable && lowerFieldAvailable){
+                var scoreOfUpperField: number = playField[indexForWidth].fieldsAbove[indexForHeight + 1].score;
+                var scoreOfLowerField: number = playField[indexForWidth].fieldsAbove[indexForHeight - 1].score;
+                var scoreOfRightField: number = playField[indexForWidth + 1].fieldsAbove[indexForHeight].score;
+                var scoreOfLeftField: number = playField[indexForWidth - 1].fieldsAbove[indexForHeight].score;
+
+                var scoreOfCurrentField: number = playField[indexForWidth].fieldsAbove[indexForHeight].score;
+
+                averageVal = (scoreOfCurrentField + scoreOfLeftField + scoreOfRightField + scoreOfUpperField + scoreOfLowerField) / 5;
+
+            }else if(rightFieldAvailable && upperFieldAvailable && lowerFieldAvailable){
+                var scoreOfUpperField: number = playField[indexForWidth].fieldsAbove[indexForHeight + 1].score;
+                var scoreOfLowerField: number = playField[indexForWidth].fieldsAbove[indexForHeight - 1].score;
+                var scoreOfRightField: number = playField[indexForWidth + 1].fieldsAbove[indexForHeight].score;
+
+                var scoreOfCurrentField: number = playField[indexForWidth].fieldsAbove[indexForHeight].score;
+
+                averageVal = (scoreOfCurrentField + scoreOfRightField + scoreOfUpperField + scoreOfLowerField) / 4;
+
+            }else if(upperFieldAvailable && rightFieldAvailable){
+                var scoreOfUpperField: number = playField[indexForWidth].fieldsAbove[indexForHeight + 1].score;
+                var scoreOfRightField: number = playField[indexForWidth + 1].fieldsAbove[indexForHeight].score;
+
+                var scoreOfCurrentField: number = playField[indexForWidth].fieldsAbove[indexForHeight].score;
+
+                averageVal = (scoreOfCurrentField + scoreOfRightField + scoreOfUpperField) / 3;
+
+            }else if(lowerFieldAvailable && rightFieldAvailable){
+                var scoreOfLowerField: number = playField[indexForWidth].fieldsAbove[indexForHeight - 1].score;
+                var scoreOfRightField: number = playField[indexForWidth + 1].fieldsAbove[indexForHeight].score;
+
+                var scoreOfCurrentField: number = playField[indexForWidth].fieldsAbove[indexForHeight].score;
+
+                averageVal = (scoreOfCurrentField + scoreOfRightField  + scoreOfLowerField) / 3;
+
+            }else if(leftFieldAvailable && lowerFieldAvailable){
+                var scoreOfLowerField: number = playField[indexForWidth].fieldsAbove[indexForHeight - 1].score;
+                var scoreOfLeftField: number = playField[indexForWidth - 1].fieldsAbove[indexForHeight].score;
+
+                var scoreOfCurrentField: number = playField[indexForWidth].fieldsAbove[indexForHeight].score;
+
+                averageVal = (scoreOfCurrentField + scoreOfLeftField + scoreOfLowerField) / 3;
+
+            }else if(leftFieldAvailable && upperFieldAvailable){
+                var scoreOfUpperField: number = playField[indexForWidth].fieldsAbove[indexForHeight + 1].score;
+                var scoreOfLeftField: number = playField[indexForWidth - 1].fieldsAbove[indexForHeight].score;
+
+                var scoreOfCurrentField: number = playField[indexForWidth].fieldsAbove[indexForHeight].score;
+
+                averageVal = (scoreOfCurrentField + scoreOfLeftField + scoreOfUpperField) / 3;
+
+            }else if(leftFieldAvailable && upperFieldAvailable && lowerFieldAvailable){
+                var scoreOfUpperField: number = playField[indexForWidth].fieldsAbove[indexForHeight + 1].score;
+                var scoreOfLowerField: number = playField[indexForWidth].fieldsAbove[indexForHeight - 1].score;
+                var scoreOfLeftField: number = playField[indexForWidth - 1].fieldsAbove[indexForHeight].score;
+
+                var scoreOfCurrentField: number = playField[indexForWidth].fieldsAbove[indexForHeight].score;
+
+                averageVal = (scoreOfCurrentField + scoreOfLeftField + scoreOfUpperField + scoreOfLowerField) / 4;
+
+            }
+
+            playField[indexForWidth].fieldsAbove[indexForHeight].score = averageVal;
         }
     }
+
+    return playField;
 }
