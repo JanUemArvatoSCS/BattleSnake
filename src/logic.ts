@@ -36,10 +36,10 @@ export function move(gameState: GameState): MoveResponse {
 
     var counter: number = 3;
 
-    while (counter != 0){
-        playField = flatFieldArray(playField);
-        counter--;
-    }
+    //while (counter != 0){
+        //playField = flatFieldArray(playField);
+        //counter--;
+    //}
 
     var bestMove: string = calculateBestMove(gameState, playField);
 
@@ -94,7 +94,7 @@ function initPlayField(gameState: GameState): fieldHorizontal[]{
         var currentField: fieldHorizontal;
         var verticalFields: fieldVertical[] = new Array;
         for(var indexForHeight: number = 0; indexForHeight < fieldHeight; indexForHeight++){
-            var tmpField: fieldVertical = {occupied: false, score: 100}
+            var tmpField: fieldVertical = {occupied: false, score: 0}
             verticalFields.push(tmpField);
         }
         currentField = {fieldsAbove: verticalFields};
@@ -118,7 +118,7 @@ function initPlayField(gameState: GameState): fieldHorizontal[]{
         for(var indexForSnakeArray:number = 0; indexForSnakeArray < otherSnakes.length; indexForSnakeArray++){
             for(var indexForSnakeBody: number = 0; indexForSnakeBody < otherSnakes[indexForSnakeArray].body.length; indexForSnakeBody++){
                 playField[otherSnakes[indexForSnakeArray].body[indexForSnakeBody].x].fieldsAbove[otherSnakes[indexForSnakeArray].body[indexForSnakeBody].y].occupied = true;
-                playField[otherSnakes[indexForSnakeArray].body[indexForSnakeBody].x].fieldsAbove[otherSnakes[indexForSnakeArray].body[indexForSnakeBody].y].score = -100;
+                playField[otherSnakes[indexForSnakeArray].body[indexForSnakeBody].x].fieldsAbove[otherSnakes[indexForSnakeArray].body[indexForSnakeBody].y].score = -1000;
             }
         }
     }
@@ -376,7 +376,7 @@ function calculateBestMove(gameState: GameState, playField: fieldHorizontal[]): 
 
 function checkFieldAbove(head: Coord, playField: fieldHorizontal[]): number{
     if(playField[head.x].fieldsAbove[head.y + 1].occupied){
-        return -2000;
+        return -6000;
     }else{
         return playField[head.x].fieldsAbove[head.y + 1].score;
     }
@@ -384,7 +384,7 @@ function checkFieldAbove(head: Coord, playField: fieldHorizontal[]): number{
 
 function checkFieldBelow(head: Coord, playField: fieldHorizontal[]): number{
     if(playField[head.x].fieldsAbove[head.y - 1].occupied){
-        return -2000;
+        return -6000;
     }else{
         return playField[head.x].fieldsAbove[head.y - 1].score;
     }
@@ -392,7 +392,7 @@ function checkFieldBelow(head: Coord, playField: fieldHorizontal[]): number{
 
 function checkFieldLeft(head: Coord, playField: fieldHorizontal[]): number{
     if(playField[head.x - 1].fieldsAbove[head.y].occupied){
-        return -2000;
+        return -6000;
     }else{
         return playField[head.x - 1].fieldsAbove[head.y].score;
     }
