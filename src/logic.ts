@@ -83,29 +83,13 @@ class PlayBoard{
         var xCoord: number = coord.x;
         var yCoord: number = coord.y;
         var returnFeedback: playField;
-        console.log("!!!!! methode /getFieldAtCoords/ has been started:");
-        console.log("searched field is at: x: " + xCoord + ", y: " + yCoord);
         if(xCoord < this.width && yCoord < this.height){
 
-            console.log("Coords in range of playboard!");
             returnFeedback = this.playBoard[xCoord].verticalFields[yCoord];
-            console.log("found searched field!");
-            console.log("content of field is: ");
 
-            if(returnFeedback.occupied){
-
-                console.log("occupied: true");
-                
-            }else{
-
-                console.log("occupied: false");
-
-            }
-            console.log("score: " + returnFeedback.score);
         }else{
 
             returnFeedback = {occupied: false, score: 0};
-            console.log("searched field is not in range of playboard!");
 
         }
         return returnFeedback;
@@ -257,6 +241,7 @@ function upgradePlayBoardInformation(gameState: GameState, playBoardToUpgrade: P
     //enter request for foodMode here...
     var lastRating: number = 0;
     var currentRating: number = food.length * 1000;
+    console.log("start rating for food is: " + currentRating)
     var lastDistanceToFood: number = 0;
     var currentDistanceToFood: number = 0;
     for(var indexForFoodArray: number = 0; indexForFoodArray < food.length; indexForFoodArray++){
@@ -279,6 +264,7 @@ function upgradePlayBoardInformation(gameState: GameState, playBoardToUpgrade: P
             currentRating = lastRating + 1000;
             console.log("food rating: " + currentRating);
             var newField: playField = {occupied: false, score: currentRating}
+            playBoardToUpgrade.overwriteFieldAtCoord(coordOfCurrentFood, newField);
             lastDistanceToFood = currentDistanceToFood;
             lastRating = currentRating;
 
@@ -288,6 +274,7 @@ function upgradePlayBoardInformation(gameState: GameState, playBoardToUpgrade: P
             currentRating = lastRating - 1000;
             console.log("food rating: " + currentRating);
             var newField: playField = {occupied: false, score: currentRating}
+            playBoardToUpgrade.overwriteFieldAtCoord(coordOfCurrentFood, newField);
             lastDistanceToFood = currentDistanceToFood;
             lastRating = currentRating;
 
@@ -295,6 +282,8 @@ function upgradePlayBoardInformation(gameState: GameState, playBoardToUpgrade: P
 
             console.log("the distance between last and current food is the same!");
             currentRating = lastRating;
+            var newField: playField = {occupied: false, score: currentRating}
+            playBoardToUpgrade.overwriteFieldAtCoord(coordOfCurrentFood, newField);
             console.log("food rating: " + currentRating);
 
         }
