@@ -81,7 +81,7 @@ class PlayBoard{
         var xCoord: number = coord.x;
         var yCoord: number = coord.y;
         var returnFeedback: playField;
-        console.log("methode /getFieldAtCoords/ has been started:");
+        console.log("!!!!! methode /getFieldAtCoords/ has been started:");
         console.log("searched field is at: x: " + xCoord + ", y: " + yCoord);
         if(xCoord < this.width && yCoord < this.height){
 
@@ -112,7 +112,7 @@ class PlayBoard{
     public overwriteFieldAtCoord(coord: Coord, newPlayField: playField): void{
         var xCoord: number = coord.x;
         var yCoord: number = coord.y;
-        console.log("methode /overwriteFieldAtCoord/ has been started:");
+        console.log("!!!!! methode /overwriteFieldAtCoord/ has been started:");
         console.log("field to overwrite is at: x: " + xCoord + ", y: " + yCoord);
         console.log("content of new playfield is: ");
         if(newPlayField.occupied){
@@ -135,7 +135,7 @@ class PlayBoard{
     }
 
     public isWorkingCorrectly(gameState: GameState): boolean{
-        console.log("methode /isWorkingCorrectly/ has been started:");
+        console.log("!!!!! methode /isWorkingCorrectly/ has been started:");
         var correctSize: boolean;
         console.log("checking size of playboard:");
         console.log("have to be: ");
@@ -198,8 +198,8 @@ function calculateDistanceBetweenCoords(pos1: Coord, pos2: Coord): number{
 
 //Methode print playBoard
 function printPlayBoard(playBoardToPrint: PlayBoard){
-    console.log("printing playboard....");
-    var verticalField: string = "";
+    console.log("!!!!! printing playboard....");
+    var verticalField: string = "| ";
     console.log("legend for playboard: \n o: occupied \n f: free \n '[number]': score of Field");
     console.log("\n \n");
     for(var indexForHeight: number = playBoardToPrint.getHeight(); indexForHeight > -1; indexForHeight--){
@@ -215,14 +215,14 @@ function printPlayBoard(playBoardToPrint: PlayBoard){
             verticalField += "]";
             verticalField += " | ";
         }
-        verticalField += "\n";
+        verticalField += "\n| ";
     }
     console.log(verticalField)
 }
 
 //Methode initialize playBoard
 function initPlayBoard(gameState: GameState): PlayBoard{
-    console.log("methode /initPlayBoard/ has been started:");
+    console.log("!!!!! methode /initPlayBoard/ has been started:");
     var widthOfPlayBoard: number = gameState.board.width;
     var heightOfPlayBoard: number = gameState.board.height;
     console.log("size of playboard has been synced!");
@@ -237,7 +237,69 @@ function initPlayBoard(gameState: GameState): PlayBoard{
     }
 }
 //Methode predictSnakeMovement
+
 //Methode upgradePlayBoardInformation
+function upgradePlayBoardInformation(gameState: GameState, playBoardToUpgrade: PlayBoard): PlayBoard{
+    console.log("!!!!! methode /upgradePlayBoardInformation/ has been started:");
+    var returnPlayBoard: PlayBoard = playBoardToUpgrade;
+    var hazardWalls: Coord[] = gameState.board.hazards;
+    var food: Coord[] = gameState.board.food;
+    
+    for(var indexForHazardArray: number = 0; indexForHazardArray < hazardWalls.length; indexForHazardArray++){
+        var coordOfCurrentWall: Coord = hazardWalls[indexForHazardArray];
+        console.log("found hazardwall at: " +"x: " + coordOfCurrentWall.x, + " y: " + coordOfCurrentWall.y);
+        var newPlayField: playField = {occupied: true, score: 0};
+        returnPlayBoard.overwriteFieldAtCoord(coordOfCurrentWall, newPlayField);
+    }
+
+    //enter request for foodMode here...
+    var lastRating: number = 0;
+    var currentRating: number = food.length * 1000;
+    var lastDistanceToFood: number = 0;
+    var currentDistanceToFood: number = 0;
+    for(var indexForFoodArray: number = 0; indexForFoodArray < food.length; indexForFoodArray++){
+        var coordOfCurrentFood: Coord = food[indexForFoodArray];
+        console.log("found food at: " +"x: " + coordOfCurrentFood.x, + " y: " + coordOfCurrentFood.y);
+        var coordOfOwnHead: Coord = gameState.you.head;
+        currentDistanceToFood = calculateDistanceBetweenCoords(coordOfCurrentFood, coordOfOwnHead);
+        console.log("distance to currentFoodCoords: " + currentDistanceToFood);
+        if(lastDistanceToFood === 0){
+
+            console.log("food rating: " + currentRating);
+            var newField: playField = {occupied: false, score: currentRating};
+            playBoardToUpgrade.overwriteFieldAtCoord(coordOfCurrentFood, newField);
+            lastRating = currentRating;
+            lastDistanceToFood = currentDistanceToFood;
+
+        }else if(lastDistanceToFood > currentDistanceToFood){
+
+            console.log("current food is better to reach then last one!")
+            currentRating = lastRating + 1000;
+            console.log("food rating: " + currentRating);
+            var newField: playField = {occupied: false, score: currentRating}
+            lastDistanceToFood = currentDistanceToFood;
+            lastRating = currentRating;
+
+        }else if(lastDistanceToFood < currentDistanceToFood){
+
+            console.log("current food is not better to reach then last one!")
+            currentRating = lastRating - 1000;
+            console.log("food rating: " + currentRating);
+            var newField: playField = {occupied: false, score: currentRating}
+            lastDistanceToFood = currentDistanceToFood;
+            lastRating = currentRating;
+
+        }else if(lastDistanceToFood === currentDistanceToFood){
+
+            console.log("the distance between last and current food is the same!");
+            currentRating = lastRating;
+            console.log("food rating: " + currentRating);
+            
+        }
+    }
+
+}
+
 //Methode flatScoresOnPlayBoard
 
 //Methode calculateNextMove
