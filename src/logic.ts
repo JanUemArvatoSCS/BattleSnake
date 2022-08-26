@@ -215,10 +215,9 @@ function printPlayBoard(playBoardToPrint: PlayBoard){
             verticalField += "]";
             verticalField += " | ";
         }
-        console.log(verticalField);
-        console.log("\n");
-        verticalField = "";
+        verticalField += "\n";
     }
+    console.log(verticalField)
 }
 
 //Methode initialize playBoard
