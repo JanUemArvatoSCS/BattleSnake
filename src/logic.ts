@@ -1,4 +1,4 @@
-import {Coord, InfoResponse, GameState, MoveResponse, Game } from "./types"
+import {Coord, InfoResponse, GameState, MoveResponse, Game, Battlesnake } from "./types"
 
 export function info(): InfoResponse {
     console.log("INFO")
@@ -230,7 +230,10 @@ function upgradePlayBoardInformation(gameState: GameState, playBoardToUpgrade: P
     var returnPlayBoard: PlayBoard = playBoardToUpgrade;
     var hazardWalls: Coord[] = gameState.board.hazards;
     var food: Coord[] = gameState.board.food;
+    var snakes: Battlesnake[] = gameState.board.snakes;
+    var coordsOfOwnHead: Coord = gameState.you.head;
     
+    //occupying hazardwalls:
     for(var indexForHazardArray: number = 0; indexForHazardArray < hazardWalls.length; indexForHazardArray++){
         var coordOfCurrentWall: Coord = hazardWalls[indexForHazardArray];
         console.log("found hazardwall at: " +"x: " + coordOfCurrentWall.x, + " y: " + coordOfCurrentWall.y);
@@ -240,10 +243,11 @@ function upgradePlayBoardInformation(gameState: GameState, playBoardToUpgrade: P
 
     //enter request for foodMode here...
     var lastRating: number = 0;
-    var currentRating: number = food.length * 1000;
+    var currentRating: number = food.length * 100000;
     console.log("start rating for food is: " + currentRating)
     var lastDistanceToFood: number = 0;
     var currentDistanceToFood: number = 0;
+    //rating food field:
     for(var indexForFoodArray: number = 0; indexForFoodArray < food.length; indexForFoodArray++){
         var coordOfCurrentFood: Coord = food[indexForFoodArray];
         console.log("found food at: " +"x: " + coordOfCurrentFood.x, + " y: " + coordOfCurrentFood.y);
@@ -261,7 +265,7 @@ function upgradePlayBoardInformation(gameState: GameState, playBoardToUpgrade: P
         }else if(lastDistanceToFood > currentDistanceToFood){
 
             console.log("current food is better to reach then last one!")
-            currentRating = lastRating + 1000;
+            currentRating = lastRating + 100000;
             console.log("food rating: " + currentRating);
             var newField: playField = {occupied: false, score: currentRating}
             playBoardToUpgrade.overwriteFieldAtCoord(coordOfCurrentFood, newField);
@@ -271,7 +275,7 @@ function upgradePlayBoardInformation(gameState: GameState, playBoardToUpgrade: P
         }else if(lastDistanceToFood < currentDistanceToFood){
 
             console.log("current food is not better to reach then last one!")
-            currentRating = lastRating - 1000;
+            currentRating = lastRating - 100000;
             console.log("food rating: " + currentRating);
             var newField: playField = {occupied: false, score: currentRating}
             playBoardToUpgrade.overwriteFieldAtCoord(coordOfCurrentFood, newField);
@@ -286,6 +290,25 @@ function upgradePlayBoardInformation(gameState: GameState, playBoardToUpgrade: P
             playBoardToUpgrade.overwriteFieldAtCoord(coordOfCurrentFood, newField);
             console.log("food rating: " + currentRating);
 
+        }
+    }
+
+    //occupying and rating fields with other snakes:
+    for(var indexForSnakeArray: number = 0; indexForSnakeArray < snakes.length; indexForSnakeArray++){
+        for(var indexForSnakeBody: number = 0; indexForSnakeBody < snakes[indexForSnakeArray].body.length; indexForSnakeBody++){
+            if(JSON.stringify(snakes[indexForSnakeArray].body[indexForSnakeBody]) === JSON.stringify(coordsOfOwnHead)){
+                if(snakes[indexForSnakeArray].body.length > 3 && indexForSnakeBody === 0){
+                    indexForSnakeBody += 3;
+                    console.log("3 Parts of own snakebody has been skiped!");
+                }else{
+                    console.log("own snakebody has been skiped completely!");
+                    break;
+                }
+            }else{
+                var snakeField: playField = {occupied: false, score: -50000};
+                var coordOfSnakeBodyPart: Coord = snakes[indexForSnakeArray].body[indexForSnakeBody];
+                playBoardToUpgrade.overwriteFieldAtCoord(coordOfSnakeBodyPart, snakeField);
+            }
         }
     }
 
