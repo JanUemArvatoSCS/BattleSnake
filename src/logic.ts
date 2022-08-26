@@ -35,6 +35,8 @@ export function move(gameState: GameState): MoveResponse {
 
     var playBoard = initPlayBoard(gameState);
 
+    printPlayBoard(playBoard);
+
     const safeMoves = Object.keys(possibleMoves).filter(key => possibleMoves[key])
     const response: MoveResponse = {
         move: safeMoves[Math.floor(Math.random() * safeMoves.length)],
