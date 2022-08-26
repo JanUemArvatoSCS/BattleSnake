@@ -300,6 +300,8 @@ function upgradePlayBoardInformation(gameState: GameState, playBoardToUpgrade: P
         }
     }
 
+    return returnPlayBoard;
+
 }
 
 //Methode flatScoresOnPlayBoard
