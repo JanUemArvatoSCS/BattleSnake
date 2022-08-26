@@ -35,6 +35,8 @@ export function move(gameState: GameState): MoveResponse {
 
     var playBoard = initPlayBoard(gameState);
 
+    playBoard = upgradePlayBoardInformation(gameState, playBoard);
+
     printPlayBoard(playBoard);
 
     const safeMoves = Object.keys(possibleMoves).filter(key => possibleMoves[key])
@@ -294,7 +296,7 @@ function upgradePlayBoardInformation(gameState: GameState, playBoardToUpgrade: P
             console.log("the distance between last and current food is the same!");
             currentRating = lastRating;
             console.log("food rating: " + currentRating);
-            
+
         }
     }
 
