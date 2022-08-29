@@ -39,7 +39,12 @@ export function move(gameState: GameState): MoveResponse {
 
     printPlayBoard(playBoard);
 
-    playBoard = prepareArrayForFlatting(playBoard);
+    var counter:number = 10;
+    while(counter > 0){
+        playBoard = prepareArrayForFlatting(playBoard);
+        counter--;
+    }
+    
 
     printPlayBoard(playBoard);
 
@@ -432,12 +437,8 @@ function prepareArrayForFlatting(playBoardToPrepare: PlayBoard): PlayBoard{
             var fieldsAroundCounter = 1;
             var playFieldsAround: playField[] = playBoardToPrepare.getFieldsAround(currentCoord);
             for(var indexForFieldsAround = 0; indexForFieldsAround < playFieldsAround.length; indexForFieldsAround++){
-                if(playFieldsAround[indexForFieldsAround].occupied){
-
-                }else{
                     averageScore += playFieldsAround[indexForFieldsAround].score;
                     fieldsAroundCounter++;
-                }
             }
             var playFieldWithNewScore: playField = {occupied: playBoardToPrepare.getFieldAtCoord(currentCoord).occupied, score: averageScore / fieldsAroundCounter};
             playBoardToPrepare.overwriteFieldAtCoord(currentCoord, playFieldWithNewScore);
