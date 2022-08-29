@@ -502,16 +502,16 @@ function calculateNextMove(gameState: GameState, playBoard: PlayBoard): string{
     if(possibleMoves[0] && possibleMoves[1] && possibleMoves[2] && possibleMoves[3]){
         //all directions:
         for(var index = 0; index < neighboursSortedByScore.length; index++){
-            if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[0]){
+            if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[0].score){
                 returnStatement = "up";
                 break;
-            }else if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[1]){
+            }else if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[1].score){
                 returnStatement = "down";
                 break;
-            }else if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[2]){
+            }else if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[2].score){
                 returnStatement = "left";
                 break;
-            }else if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[3]){
+            }else if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[3].score){
                 returnStatement = "right";
                 break;
             }
@@ -519,13 +519,13 @@ function calculateNextMove(gameState: GameState, playBoard: PlayBoard): string{
     }else if(possibleMoves[0] && possibleMoves[2] && possibleMoves[3]){
         //up, left and right:
         for(var index = 0; index < neighboursSortedByScore.length; index++){
-            if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[0]){
+            if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[0].score){
                 returnStatement = "up";
                 break;
-            }else if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[2]){
+            }else if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[2].score){
                 returnStatement = "left";
                 break;
-            }else if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[3]){
+            }else if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[3].score){
                 returnStatement = "right";
                 break;
             }
@@ -533,13 +533,13 @@ function calculateNextMove(gameState: GameState, playBoard: PlayBoard): string{
     }else if(possibleMoves[1] && possibleMoves[2] && possibleMoves[3]){
         //down, left and right:
         for(var index = 0; index < neighboursSortedByScore.length; index++){
-            if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[1]){
+            if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[1].score){
                 returnStatement = "down";
                 break;
-            }else if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[2]){
+            }else if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[2].score){
                 returnStatement = "left";
                 break;
-            }else if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[3]){
+            }else if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[3].score){
                 returnStatement = "right";
                 break;
             }
@@ -547,13 +547,13 @@ function calculateNextMove(gameState: GameState, playBoard: PlayBoard): string{
     }else if(possibleMoves[0] && possibleMoves[1] && possibleMoves[3]){
         //up, down and right:
         for(var index = 0; index < neighboursSortedByScore.length; index++){
-            if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[0]){
+            if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[0].score){
                 returnStatement = "up";
                 break;
-            }else if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[1]){
+            }else if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[1].score){
                 returnStatement = "down";
                 break;
-            }else if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[3]){
+            }else if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[3].score){
                 returnStatement = "right";
                 break;
             }
@@ -561,17 +561,14 @@ function calculateNextMove(gameState: GameState, playBoard: PlayBoard): string{
     }else if(possibleMoves[0] && possibleMoves[1] && possibleMoves[2]){
         //up, down and left:
         for(var index = 0; index < neighboursSortedByScore.length; index++){
-            if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[0]){
+            if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[0].score){
                 returnStatement = "up";
                 break;
-            }else if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[1]){
+            }else if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[1].score){
                 returnStatement = "down";
                 break;
-            }else if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[2]){
+            }else if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[2].score){
                 returnStatement = "left";
-                break;
-            }else if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[3]){
-                returnStatement = "right";
                 break;
             }
         }
@@ -610,6 +607,7 @@ function calculateNextMove(gameState: GameState, playBoard: PlayBoard): string{
 function sortArrayByScore(arrayToAnalyze: playField[]): playField[]{
     var changedSomething = true;
     while(changedSomething){
+        changedSomething = false;
         for(var index = 0; index < arrayToAnalyze.length - 1; index++){
             if(arrayToAnalyze[index].score < arrayToAnalyze[index + 1].score){
                 var tmpPlayField: playField = arrayToAnalyze[index];
