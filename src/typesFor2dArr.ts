@@ -9,16 +9,18 @@ export class Vector{
 
     /**
      * 
-     * @param coordOfVektor coords of current vector 
-     * @param occupied 
-     * @param occupiedFor 
-     * @param distanceTwoOwnHead 
+     * @param coordOfVektor coords of current vector.
+     * @param occupied if the vector is occupied enter true. In any other case enter false.
+     * @param occupiedFor if some moving object is on the field enter the time the object will stay.
+     * @param distanceTwoOwnHead distance between current vector and the head of the own snake.
+     * 
+     * @initializingNeighboursOfCurrentVector while initializing a vector the neighbours are unknown. The neighbour-vectors will be initialized with parameter: coord{x: -11, y: -11}, occupied: false, occupiedFor: 0, distanceToOwnHead: 0.
      */
-    public constructor(coordOfVektor: Coord, occupied: boolean, occupiedFor: number, distanceTwoOwnHead: number){
+    public constructor(coordOfVektor: Coord, occupied: boolean, occupiedFor: number, distanceToOwnHead: number){
         this.coordOfVektor = coordOfVektor;
         this.occupied = occupied;
-        this.occupiedFor = 0;
-        this.distanceToOwnHead = 0;
+        this.occupiedFor = occupiedFor;
+        this.distanceToOwnHead = distanceToOwnHead;
         this.neighbours = new Array();
         const placeHolder: Vector = new Vector({x: -11, y: -11}, false, 0, 0);
         let counter: number = 4;
