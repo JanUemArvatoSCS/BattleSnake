@@ -448,6 +448,15 @@ function upgradePlayBoardInformation(gameState: GameState, playBoardToUpgrade: P
         }
     }
 
+    //occopying own snake completly
+    for(var indexForSnakeBody: number = 1; indexForSnakeBody < gameState.you.body.length; indexForSnakeBody++){
+        var fieldForNeck: playField = {occupied: true, score: 0};
+        var currentCoordOfOwnBody: Coord = gameState.you.body[indexForSnakeBody];
+        if(!(playBoardToUpgrade.getFieldAtCoord(currentCoordOfOwnBody).occupied)){
+            playBoardToUpgrade.overwriteFieldAtCoord(currentCoordOfOwnBody, fieldForNeck);
+        }
+    }
+
     return returnPlayBoard;
 
 }
