@@ -583,6 +583,34 @@ function calculateNextMove(gameState: GameState, playBoard: PlayBoard): string{
                 break;
             }
         }
+    }else if(possibleMoves[1] && possibleMoves[3]){
+        //:down and right:
+        if(fieldsAroundCurrentCoord[1].score < fieldsAroundCurrentCoord[3].score){
+            returnStatement = "right"
+        }else{
+            returnStatement = "down"
+        }
+    }else if(possibleMoves[1] && possibleMoves[2]){
+        //down and left:
+        if(fieldsAroundCurrentCoord[1].score < fieldsAroundCurrentCoord[2].score){
+            returnStatement = "left"
+        }else{
+            returnStatement = "down"
+        }
+    }else if(possibleMoves[0] && possibleMoves[3]){
+        //up and right:
+        if(fieldsAroundCurrentCoord[0].score < fieldsAroundCurrentCoord[3].score){
+            returnStatement = "right"
+        }else{
+            returnStatement = "up"
+        }
+    }else if(possibleMoves[0] && possibleMoves[2]){
+        //up and left:
+        if(fieldsAroundCurrentCoord[0].score < fieldsAroundCurrentCoord[2].score){
+            returnStatement = "left"
+        }else{
+            returnStatement = "up"
+        }
     }else if(possibleMoves[0] && possibleMoves[1]){
         console.log("it's possible to move up and down!");
         //up and down:
