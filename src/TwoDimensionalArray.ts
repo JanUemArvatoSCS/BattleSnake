@@ -1,8 +1,8 @@
-import {Vektor, columns} from "./typesFor2dArr";
+import {Vector, column} from "./typesFor2dArr";
 import {Coord} from "./types";
 
 export class TwoDimensionalArray{
-    private storage: columns[];
+    private storage: column[];
     private width: number;
     private height: number;
 
@@ -11,13 +11,13 @@ export class TwoDimensionalArray{
         this.height = height;
         this.storage = new Array();
         for(let indexForWidth = 0; indexForWidth < this.width; indexForWidth++){
-            let rowsForOneColumn: Vektor[] = new Array();
+            let rowsForOneColumn: Vector[] = new Array();
             for(let indexForHeight = 0; indexForHeight < this.height; indexForHeight++){
                 let currentCoord: Coord = {x: indexForWidth, y: indexForHeight};
-                let vektorToAdd: Vektor = new Vektor(currentCoord, false, 0, 0);
+                let vektorToAdd: Vector = new Vector(currentCoord, false, 0, 0);
                 rowsForOneColumn.push(vektorToAdd);
             }
-            let oneCollum: columns = {rows: rowsForOneColumn};
+            let oneCollum: column = {rows: rowsForOneColumn};
             this.storage.push(oneCollum);
         }
     }

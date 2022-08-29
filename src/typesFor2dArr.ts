@@ -1,19 +1,26 @@
 import {Coord} from "./types"
 
-export class Vektor{
+export class Vector{
     private coordOfVektor: Coord;
     private occupied: boolean;
-    private neighbours: Vektor[];
+    private neighbours: Vector[];
     private occupiedFor: number;
     private distanceToOwnHead: number;
 
+    /**
+     * 
+     * @param coordOfVektor coords of current vector 
+     * @param occupied 
+     * @param occupiedFor 
+     * @param distanceTwoOwnHead 
+     */
     public constructor(coordOfVektor: Coord, occupied: boolean, occupiedFor: number, distanceTwoOwnHead: number){
         this.coordOfVektor = coordOfVektor;
         this.occupied = occupied;
         this.occupiedFor = 0;
         this.distanceToOwnHead = 0;
         this.neighbours = new Array();
-        const placeHolder: Vektor = new Vektor({x: -11, y: -11}, false, 0, 0);
+        const placeHolder: Vector = new Vector({x: -11, y: -11}, false, 0, 0);
         let counter: number = 4;
         while(counter > 0){
             this.neighbours.push(placeHolder);
@@ -21,9 +28,9 @@ export class Vektor{
         }
     }
 
-    public getNeighbours(): {[key: string]: Vektor} | undefined{
+    public getNeighbours(): {[key: string]: Vector} | undefined{
         if(this.neighbours.length === 4){
-            let directNeighbours: {[key: string]: Vektor} = {
+            let directNeighbours: {[key: string]: Vector} = {
                 up: this.neighbours[0],
                 down: this.neighbours[1],
                 left: this.neighbours[2],
@@ -47,24 +54,24 @@ export class Vektor{
         return this.distanceToOwnHead;
     }
 
-    public addNeighbourAbove(neighbour: Vektor): void{
+    public addNeighbourAbove(neighbour: Vector): void{
         this.neighbours[0] = neighbour;
     }
 
-    public addNeighbourBelow(neighbour: Vektor): void{
+    public addNeighbourBelow(neighbour: Vector): void{
         this.neighbours[1] = neighbour;
     }
 
-    public addNeighbourLeft(neighbour: Vektor): void{
+    public addNeighbourLeft(neighbour: Vector): void{
         this.neighbours[2] = neighbour;
     }
 
-    public addNeighbourRight(neighbour: Vektor): void{
+    public addNeighbourRight(neighbour: Vector): void{
         this.neighbours[3] = neighbour;
     }
 }
 
-export interface columns{
-    rows: Vektor[];
+export interface column{
+    rows: Vector[];
 }
 
