@@ -39,14 +39,38 @@ export function move(gameState: GameState): MoveResponse {
 
     printPlayBoard(playBoard);
 
-    var counter:number = 2;
+    var counter:number = 4;
     while(counter > 0){
         playBoard = prepareArrayForFlatting(playBoard);
         counter--;
     }
     
-
     printPlayBoard(playBoard);
+
+    var movementDirection: string = calculateNextMove(gameState, playBoard);
+
+    switch(movementDirection){
+        case "up":
+            possibleMoves.down = false;
+            possibleMoves.left = false;
+            possibleMoves.right = false;
+            break;
+        case "down":
+            possibleMoves.up = false;
+            possibleMoves.left = false;
+            possibleMoves.right = false;
+            break;
+        case "left":
+            possibleMoves.up = false;
+            possibleMoves.down = false;
+            possibleMoves.right = false;
+            break;
+        case "right":
+            possibleMoves.up = false;
+            possibleMoves.down = false;
+            possibleMoves.left = false;
+            break;
+    }
 
     const safeMoves = Object.keys(possibleMoves).filter(key => possibleMoves[key])
     const response: MoveResponse = {
@@ -454,12 +478,149 @@ function prepareArrayForFlatting(playBoardToPrepare: PlayBoard): PlayBoard{
     //continue working here !!!!!!!!!!!!!!!!!!!!!!
 //}
 
-//Methode checkMovPossibilitiesForFlatt
-
-
-
-
 //Methode calculateNextMove
+function calculateNextMove(gameState: GameState, playBoard: PlayBoard): string{
+    var posOfHead: Coord = gameState.you.head;
+    var possibleMoves: boolean[] = playBoard.fieldsAroundReachable(posOfHead);
+
+    //logic not to run into own body
+    if(posOfHead.y > gameState.you.body[1].y){
+        possibleMoves[0] = false;
+    }else if(posOfHead.y < gameState.you.body[1].y){
+        possibleMoves[1] = false;
+    }else if(posOfHead.x < gameState.you.body[1].x){
+        possibleMoves[2] = false;
+    }else if(posOfHead.x > gameState.you.body[1].x){
+        possibleMoves[3] = false;
+    }
+
+    var fieldsAroundCurrentCoord: playField[] = playBoard.getFieldsAround(posOfHead);
+    var neighboursSortedByScore: playField[] = sortArrayByScore(fieldsAroundCurrentCoord);
+
+    var returnStatement: string = "";
+
+    if(possibleMoves[0] && possibleMoves[1] && possibleMoves[2] && possibleMoves[3]){
+        //all directions:
+        for(var index = 0; index < neighboursSortedByScore.length; index++){
+            if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[0]){
+                returnStatement = "up";
+                break;
+            }else if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[1]){
+                returnStatement = "down";
+                break;
+            }else if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[2]){
+                returnStatement = "left";
+                break;
+            }else if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[3]){
+                returnStatement = "right";
+                break;
+            }
+        }
+    }else if(possibleMoves[0] && possibleMoves[2] && possibleMoves[3]){
+        //up, left and right:
+        for(var index = 0; index < neighboursSortedByScore.length; index++){
+            if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[0]){
+                returnStatement = "up";
+                break;
+            }else if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[2]){
+                returnStatement = "left";
+                break;
+            }else if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[3]){
+                returnStatement = "right";
+                break;
+            }
+        }
+    }else if(possibleMoves[1] && possibleMoves[2] && possibleMoves[3]){
+        //down, left and right:
+        for(var index = 0; index < neighboursSortedByScore.length; index++){
+            if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[1]){
+                returnStatement = "down";
+                break;
+            }else if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[2]){
+                returnStatement = "left";
+                break;
+            }else if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[3]){
+                returnStatement = "right";
+                break;
+            }
+        }
+    }else if(possibleMoves[0] && possibleMoves[1] && possibleMoves[3]){
+        //up, down and right:
+        for(var index = 0; index < neighboursSortedByScore.length; index++){
+            if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[0]){
+                returnStatement = "up";
+                break;
+            }else if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[1]){
+                returnStatement = "down";
+                break;
+            }else if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[3]){
+                returnStatement = "right";
+                break;
+            }
+        }
+    }else if(possibleMoves[0] && possibleMoves[1] && possibleMoves[2]){
+        //up, down and left:
+        for(var index = 0; index < neighboursSortedByScore.length; index++){
+            if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[0]){
+                returnStatement = "up";
+                break;
+            }else if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[1]){
+                returnStatement = "down";
+                break;
+            }else if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[2]){
+                returnStatement = "left";
+                break;
+            }else if(neighboursSortedByScore[index] === fieldsAroundCurrentCoord[3]){
+                returnStatement = "right";
+                break;
+            }
+        }
+    }else if(possibleMoves[0] && possibleMoves[1]){
+        //up and down:
+        if(fieldsAroundCurrentCoord[0].score < fieldsAroundCurrentCoord[1].score){
+            returnStatement = "up"
+        }else{
+            returnStatement = "down"
+        }
+    }else if(possibleMoves[2] && possibleMoves[3]){
+        //left and right:
+        if(fieldsAroundCurrentCoord[2].score < fieldsAroundCurrentCoord[3].score){
+            returnStatement = "right";
+        }else{
+            returnStatement = "left";
+        }
+    }else if(possibleMoves[0]){
+        //up:
+        returnStatement = "up";
+    }else if(possibleMoves[1]){
+        //down:
+        returnStatement = "down";
+    }else if(possibleMoves[2]){
+        //left:
+        returnStatement = "left";
+    }else if(possibleMoves[3]){
+        //right:
+        returnStatement = "right";
+    }
+
+    return returnStatement;
+}
+
+//Methode findFieldWithBiggestScoreInArray
+function sortArrayByScore(arrayToAnalyze: playField[]): playField[]{
+    var changedSomething = true;
+    while(changedSomething){
+        for(var index = 0; index < arrayToAnalyze.length - 1; index++){
+            if(arrayToAnalyze[index].score < arrayToAnalyze[index + 1].score){
+                var tmpPlayField: playField = arrayToAnalyze[index];
+                arrayToAnalyze[index] = arrayToAnalyze[index + 1];
+                arrayToAnalyze[index + 1] = tmpPlayField;
+                changedSomething = true;
+            }
+        }
+    }
+    return arrayToAnalyze;
+}
 
 //watch for: cleanCode, feed protocol
 
