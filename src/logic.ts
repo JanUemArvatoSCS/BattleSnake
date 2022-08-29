@@ -39,6 +39,10 @@ export function move(gameState: GameState): MoveResponse {
 
     printPlayBoard(playBoard);
 
+    playBoard = prepareArrayForFlatting(playBoard);
+
+    printPlayBoard(playBoard);
+
     const safeMoves = Object.keys(possibleMoves).filter(key => possibleMoves[key])
     const response: MoveResponse = {
         move: safeMoves[Math.floor(Math.random() * safeMoves.length)],
@@ -75,7 +79,7 @@ class PlayBoard{
             }
             currentFieldHolder = {verticalFields: verticalFieldsForOneHolder};
             this.playBoard.push(currentFieldHolder);
-            console.log("current iteration has been finished!")
+            console.log("current iteration has been finished!");
         }
     }
 
@@ -83,13 +87,13 @@ class PlayBoard{
         var xCoord: number = coord.x;
         var yCoord: number = coord.y;
         var returnFeedback: playField;
-        if(xCoord < this.width && yCoord < this.height){
+        if(xCoord < this.width && xCoord >= 0 && yCoord < this.height && yCoord >= 0){
 
             returnFeedback = this.playBoard[xCoord].verticalFields[yCoord];
 
         }else{
 
-            returnFeedback = {occupied: false, score: 0};
+            returnFeedback = {occupied: true, score: 0};
 
         }
         return returnFeedback;
@@ -148,6 +152,107 @@ class PlayBoard{
 
     public getWidth(): number{
         return this.width;
+    }
+
+    /**
+     * 
+     * @returns an array with the field above at index 0, the field below at index 1, the left field at index 2 and the right field at index 3. 
+     * 
+     * @specialCases if the field isn't reachable the occupied value of the returned field will be true and the score will be 0.
+     */
+    public getFieldsAround(coord: Coord): playField[]{
+        console.log("!!!!! methode /getFieldsAround/ has been started:");
+        var returnFields: playField[] = new Array();
+        var aboveReachable: boolean = true;
+        var belowReachable: boolean = true;
+        var leftReachable: boolean = true;
+        var rightReachable: boolean = true;
+
+        if(coord.x < 1){
+            console.log("left field from " + coord.x + "|" + coord.y + "is not reachable!");
+            leftReachable = false;
+        }else if(coord.x > (this.width - 1)){
+            console.log("left right from " + coord.x + "|" + coord.y + "is not reachable!");
+            rightReachable = false;
+        }
+        if(coord.y < 1){
+            console.log("field below from " + coord.x + "|" + coord.y + "is not reachable!");
+            belowReachable = false;
+        }else if(coord.y > (this.height - 1)){
+            console.log("field above from " + coord.x + "|" + coord.y + "is not reachable!");
+            aboveReachable = false; 
+        }
+
+        if(aboveReachable){
+            var coordOfFieldAbove: Coord = {x: coord.x, y: coord.y + 1};
+            returnFields.push(this.getFieldAtCoord(coordOfFieldAbove));
+        }else if(!aboveReachable){
+            var emptyField: playField = {occupied: true, score: 0};
+            returnFields.push(emptyField);
+        }
+        if(belowReachable){
+            var coordOfFieldAbove: Coord = {x: coord.x, y: coord.y - 1};
+            returnFields.push(this.getFieldAtCoord(coordOfFieldAbove));
+        }else if(!belowReachable){
+            var emptyField: playField = {occupied: true, score: 0};
+            returnFields.push(emptyField);
+        }
+        if(leftReachable){
+            var coordOfFieldAbove: Coord = {x: coord.x - 1, y: coord.y};
+            returnFields.push(this.getFieldAtCoord(coordOfFieldAbove));
+        }else if(!leftReachable){
+            var emptyField: playField = {occupied: true, score: 0};
+            returnFields.push(emptyField);
+        }
+        if(rightReachable){
+            var coordOfFieldAbove: Coord = {x: coord.x + 1, y: coord.y};
+            returnFields.push(this.getFieldAtCoord(coordOfFieldAbove));
+        }else if(!rightReachable){
+            var emptyField: playField = {occupied: true, score: 0};
+            returnFields.push(emptyField);
+        }
+
+        return returnFields;
+    }
+
+    /**
+     * 
+     * 
+     * @returns an array including the information which direct neighbour is reachable with the field above at index 0, the field below at index 1, the field left at index 2 and the field right at index 3.
+     */
+    public fieldsAroundReachable(coord: Coord): boolean[]{
+        var fieldsReachable: boolean[] = new Array();
+        var aboveReachable: boolean = true;
+        var belowReachable: boolean = true;
+        var leftReachable: boolean = true;
+        var rightReachable: boolean = true;
+
+        var coordOfLeftField: Coord = {x: coord.x - 1, y: coord.y};
+        if(coord.x < 1 || this.getFieldAtCoord(coordOfLeftField).occupied){
+            console.log("left field from " + coord.x + "|" + coord.y + "is not reachable!");
+            leftReachable = false;
+        }
+        var coordOfRightField: Coord = {x: coord.x + 1, y: coord.y};
+        if(coord.x > (this.width - 1) ||this.getFieldAtCoord(coordOfRightField).occupied){
+            console.log("left right from " + coord.x + "|" + coord.y + "is not reachable!");
+            rightReachable = false;
+        }
+        var coordOfBelowField: Coord = {x: coord.x, y: coord.y - 1};
+        if(coord.y < 1 || this.getFieldAtCoord(coordOfBelowField).occupied){
+            console.log("field below from " + coord.x + "|" + coord.y + "is not reachable!");
+            belowReachable = false;
+        }
+        var coordOfAboveField: Coord = {x: coord.x, y: coord.y + 1};
+        if(coord.y > (this.height - 1) ||this.getFieldAtCoord(coordOfAboveField)){
+            console.log("field above from " + coord.x + "|" + coord.y + "is not reachable!");
+            aboveReachable = false; 
+        }
+        fieldsReachable.push(aboveReachable);
+        fieldsReachable.push(belowReachable);
+        fieldsReachable.push(leftReachable);
+        fieldsReachable.push(rightReachable);
+
+        return fieldsReachable;
     }
 }
 
@@ -247,6 +352,7 @@ function upgradePlayBoardInformation(gameState: GameState, playBoardToUpgrade: P
     console.log("start rating for food is: " + currentRating)
     var lastDistanceToFood: number = 0;
     var currentDistanceToFood: number = 0;
+    
     //rating food field:
     for(var indexForFoodArray: number = 0; indexForFoodArray < food.length; indexForFoodArray++){
         var coordOfCurrentFood: Coord = food[indexForFoodArray];
@@ -305,6 +411,7 @@ function upgradePlayBoardInformation(gameState: GameState, playBoardToUpgrade: P
                     break;
                 }
             }else{
+                console.log("found part of snakebody!");
                 var snakeField: playField = {occupied: false, score: -50000};
                 var coordOfSnakeBodyPart: Coord = snakes[indexForSnakeArray].body[indexForSnakeBody];
                 playBoardToUpgrade.overwriteFieldAtCoord(coordOfSnakeBodyPart, snakeField);
@@ -316,7 +423,38 @@ function upgradePlayBoardInformation(gameState: GameState, playBoardToUpgrade: P
 
 }
 
+//Metode prepare Array for flatting
+function prepareArrayForFlatting(playBoardToPrepare: PlayBoard): PlayBoard{
+    for(var indexForHeight = 0; indexForHeight < playBoardToPrepare.getHeight(); indexForHeight++){
+        for(var indexForWidth = 0; indexForWidth < playBoardToPrepare.getWidth(); indexForWidth ++){
+            var currentCoord: Coord = {x: indexForWidth, y: indexForHeight};
+            var averageScore: number = playBoardToPrepare.getFieldAtCoord(currentCoord).score;
+            var fieldsAroundCounter = 1;
+            var playFieldsAround: playField[] = playBoardToPrepare.getFieldsAround(currentCoord);
+            for(var indexForFieldsAround = 0; indexForFieldsAround < playFieldsAround.length; indexForFieldsAround++){
+                if(playFieldsAround[indexForFieldsAround].occupied){
+
+                }else{
+                    averageScore += playFieldsAround[indexForFieldsAround].score;
+                    fieldsAroundCounter++;
+                }
+            }
+            var playFieldWithNewScore: playField = {occupied: playBoardToPrepare.getFieldAtCoord(currentCoord).occupied, score: averageScore / fieldsAroundCounter};
+            playBoardToPrepare.overwriteFieldAtCoord(currentCoord, playFieldWithNewScore);
+        }
+    }
+    return playBoardToPrepare;
+}
+
 //Methode flatScoresOnPlayBoard
+//function flatPlayBoardStatics(playBoardToFlat: PlayBoard): PlayBoard{
+    //continue working here !!!!!!!!!!!!!!!!!!!!!!
+//}
+
+//Methode checkMovPossibilitiesForFlatt
+
+
+
 
 //Methode calculateNextMove
 
