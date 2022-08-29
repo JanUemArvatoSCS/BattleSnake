@@ -441,7 +441,7 @@ function upgradePlayBoardInformation(gameState: GameState, playBoardToUpgrade: P
                 }
             }else{
                 console.log("found part of snakebody!");
-                var snakeField: playField = {occupied: false, score: -50000};
+                var snakeField: playField = {occupied: true, score: -50000};
                 var coordOfSnakeBodyPart: Coord = snakes[indexForSnakeArray].body[indexForSnakeBody];
                 playBoardToUpgrade.overwriteFieldAtCoord(coordOfSnakeBodyPart, snakeField);
             }
