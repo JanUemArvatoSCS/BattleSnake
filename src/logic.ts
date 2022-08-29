@@ -602,7 +602,7 @@ function calculateNextMove(gameState: GameState, playBoard: PlayBoard): string{
     }else if(possibleMoves[1] && possibleMoves[3]){
         //:down and right:
         console.log("it's possible to move down and right!");
-        if(fieldsAroundCurrentCoord[1].score < fieldsAroundCurrentCoord[3].score){
+        if(fieldsAroundCurrentCoord[3].score < fieldsAroundCurrentCoord[1].score){//changed index
             console.log("tell snake to move right!");
             returnStatement = "right"
         }else{
@@ -612,7 +612,7 @@ function calculateNextMove(gameState: GameState, playBoard: PlayBoard): string{
     }else if(possibleMoves[1] && possibleMoves[2]){
         //down and left:
         console.log("it's possible to move down and left!");
-        if(fieldsAroundCurrentCoord[2].score < fieldsAroundCurrentCoord[1].score){//changed index
+        if(fieldsAroundCurrentCoord[1].score < fieldsAroundCurrentCoord[2].score){
             console.log("tell snake to move left!");
             returnStatement = "left"
         }else{
