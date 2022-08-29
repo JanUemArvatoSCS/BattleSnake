@@ -585,6 +585,7 @@ function calculateNextMove(gameState: GameState, playBoard: PlayBoard): string{
         }
     }else if(possibleMoves[1] && possibleMoves[3]){
         //:down and right:
+        console.log("it's possible to move down and right!");
         if(fieldsAroundCurrentCoord[1].score < fieldsAroundCurrentCoord[3].score){
             returnStatement = "right"
         }else{
@@ -592,6 +593,7 @@ function calculateNextMove(gameState: GameState, playBoard: PlayBoard): string{
         }
     }else if(possibleMoves[1] && possibleMoves[2]){
         //down and left:
+        console.log("it's possible to move down and left!");
         if(fieldsAroundCurrentCoord[1].score < fieldsAroundCurrentCoord[2].score){
             returnStatement = "left"
         }else{
@@ -599,6 +601,7 @@ function calculateNextMove(gameState: GameState, playBoard: PlayBoard): string{
         }
     }else if(possibleMoves[0] && possibleMoves[3]){
         //up and right:
+        console.log("it's possible to move up and right!");
         if(fieldsAroundCurrentCoord[0].score < fieldsAroundCurrentCoord[3].score){
             returnStatement = "right"
         }else{
@@ -606,6 +609,7 @@ function calculateNextMove(gameState: GameState, playBoard: PlayBoard): string{
         }
     }else if(possibleMoves[0] && possibleMoves[2]){
         //up and left:
+        console.log("it's possible to move up and left!");
         if(fieldsAroundCurrentCoord[0].score < fieldsAroundCurrentCoord[2].score){
             returnStatement = "left"
         }else{
