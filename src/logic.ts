@@ -131,25 +131,25 @@ class PlayBoard{
     public overwriteFieldAtCoord(coord: Coord, newPlayField: playField): void{
         var xCoord: number = coord.x;
         var yCoord: number = coord.y;
-        console.log("!!!!! methode /overwriteFieldAtCoord/ has been started:");
-        console.log("field to overwrite is at: x: " + xCoord + ", y: " + yCoord);
-        console.log("content of new playfield is: ");
+        //console.log("!!!!! methode /overwriteFieldAtCoord/ has been started:");
+        //console.log("field to overwrite is at: x: " + xCoord + ", y: " + yCoord);
+        //console.log("content of new playfield is: ");
         if(newPlayField.occupied){
 
-            console.log("occupied: true");
+            //console.log("occupied: true");
                 
         }else{
 
-             console.log("occupied: false");
+             //console.log("occupied: false");
 
         }
-        console.log("score: " + newPlayField.score);
+        //console.log("score: " + newPlayField.score);
         if(xCoord < this.width && yCoord < this.height){
             this.playBoard[xCoord].verticalFields[yCoord].occupied = newPlayField.occupied;
             this.playBoard[xCoord].verticalFields[yCoord].score = newPlayField.score;
-            console.log("feld has been overwritten sucessfully!");
+            //console.log("feld has been overwritten sucessfully!");
         }else{
-            console.log("searched field is not in range of playboard!");
+            //console.log("searched field is not in range of playboard!");
         }
     }
 
