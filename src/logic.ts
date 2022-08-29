@@ -39,7 +39,7 @@ export function move(gameState: GameState): MoveResponse {
 
     printPlayBoard(playBoard);
 
-    var counter:number = 10;
+    var counter:number = 3;
     while(counter > 0){
         playBoard = prepareArrayForFlatting(playBoard);
         counter--;
