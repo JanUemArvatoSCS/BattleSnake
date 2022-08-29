@@ -13,7 +13,7 @@ export class Vektor{
         this.occupiedFor = 0;
         this.distanceToOwnHead = 0;
         this.neighbours = new Array();
-        const placeHolder: Vektor = new Vektor({x: 0, y: 0}, false, 0, 0);
+        const placeHolder: Vektor = new Vektor({x: -11, y: -11}, false, 0, 0);
         let counter: number = 4;
         while(counter > 0){
             this.neighbours.push(placeHolder);
@@ -64,10 +64,7 @@ export class Vektor{
     }
 }
 
-export interface rows{
+export interface columns{
     rows: Vektor[];
 }
 
-export interface columns{
-    columns: rows[];
-}
