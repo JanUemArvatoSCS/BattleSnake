@@ -437,8 +437,10 @@ function prepareArrayForFlatting(playBoardToPrepare: PlayBoard): PlayBoard{
             var fieldsAroundCounter = 1;
             var playFieldsAround: playField[] = playBoardToPrepare.getFieldsAround(currentCoord);
             for(var indexForFieldsAround = 0; indexForFieldsAround < playFieldsAround.length; indexForFieldsAround++){
+                if(playFieldsAround[indexForFieldsAround].score != 0){
                     averageScore += playFieldsAround[indexForFieldsAround].score;
                     fieldsAroundCounter++;
+                }    
             }
             var playFieldWithNewScore: playField = {occupied: playBoardToPrepare.getFieldAtCoord(currentCoord).occupied, score: averageScore / fieldsAroundCounter};
             playBoardToPrepare.overwriteFieldAtCoord(currentCoord, playFieldWithNewScore);
