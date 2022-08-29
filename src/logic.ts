@@ -198,17 +198,17 @@ class PlayBoard{
         var rightReachable: boolean = true;
 
         if(coord.x < 1){
-            console.log("left field from " + coord.x + "|" + coord.y + "is not reachable!");
+            console.log("left field from " + coord.x + "|" + coord.y + " is not reachable!");
             leftReachable = false;
         }else if(coord.x > (this.width - 1)){
-            console.log("left right from " + coord.x + "|" + coord.y + "is not reachable!");
+            console.log("left right from " + coord.x + "|" + coord.y + " is not reachable!");
             rightReachable = false;
         }
         if(coord.y < 1){
-            console.log("field below from " + coord.x + "|" + coord.y + "is not reachable!");
+            console.log("field below from " + coord.x + "|" + coord.y + " is not reachable!");
             belowReachable = false;
         }else if(coord.y > (this.height - 1)){
-            console.log("field above from " + coord.x + "|" + coord.y + "is not reachable!");
+            console.log("field above from " + coord.x + "|" + coord.y + " is not reachable!");
             aboveReachable = false; 
         }
 
@@ -486,13 +486,17 @@ function calculateNextMove(gameState: GameState, playBoard: PlayBoard): string{
 
     //logic not to run into own body
     if(posOfHead.y > gameState.you.body[1].y){
-        possibleMoves[0] = false;
-    }else if(posOfHead.y < gameState.you.body[1].y){
         possibleMoves[1] = false;
+        console.log("neck is below head!")
+    }else if(posOfHead.y < gameState.you.body[1].y){
+        possibleMoves[0] = false;
+        console.log("neck is above head!")
     }else if(posOfHead.x < gameState.you.body[1].x){
-        possibleMoves[2] = false;
-    }else if(posOfHead.x > gameState.you.body[1].x){
         possibleMoves[3] = false;
+        console.log("neck is left from head!")
+    }else if(posOfHead.x > gameState.you.body[1].x){
+        possibleMoves[2] = false;
+        console.log("neck is right from head!")
     }
 
 
