@@ -39,7 +39,7 @@ export function move(gameState: GameState): MoveResponse {
 
     printPlayBoard(playBoard);
 
-    var counter:number = 6;
+    var counter:number = 20;
     while(counter > 0){
         playBoard = prepareArrayForFlatting(playBoard);
         counter--;
@@ -190,7 +190,7 @@ class PlayBoard{
      * @specialCases if the field isn't reachable the occupied value of the returned field will be true and the score will be 0.
      */
     public getFieldsAround(coord: Coord): playField[]{
-        console.log("!!!!! methode /getFieldsAround/ has been started:");
+        //console.log("!!!!! methode /getFieldsAround/ has been started:");
         var returnFields: playField[] = new Array();
         var aboveReachable: boolean = true;
         var belowReachable: boolean = true;
