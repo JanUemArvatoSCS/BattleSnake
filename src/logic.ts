@@ -494,6 +494,20 @@ function calculateNextMove(gameState: GameState, playBoard: PlayBoard): string{
         possibleMoves[3] = false;
     }
 
+    //wall(will be fixed soon)
+    if(posOfHead.y === gameState.board.height + 1){
+        possibleMoves[0] = false;
+    }
+    if(posOfHead.y === gameState.board.height - 1){
+        possibleMoves[1] = false;
+    }
+    if(posOfHead.x === gameState.board.width - 1){
+        possibleMoves[2] = false;
+    }
+    if(posOfHead.x === gameState.board.width + 1){
+        possibleMoves[3] = false;
+    }
+
     var fieldsAroundCurrentCoord: playField[] = playBoard.getFieldsAround(posOfHead);
     var neighboursSortedByScore: playField[] = sortArrayByScore(fieldsAroundCurrentCoord);
 
