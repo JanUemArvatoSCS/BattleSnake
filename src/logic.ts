@@ -258,22 +258,22 @@ class PlayBoard{
 
         var coordOfLeftField: Coord = {x: coord.x - 1, y: coord.y};
         if(coord.x < 1 || this.getFieldAtCoord(coordOfLeftField).occupied){
-            console.log("left field from " + coord.x + "|" + coord.y + "is not reachable!");
+            console.log("left field from " + coord.x + "|" + coord.y + " is not reachable!");
             leftReachable = false;
         }
         var coordOfRightField: Coord = {x: coord.x + 1, y: coord.y};
         if(coord.x > (this.width - 1) ||this.getFieldAtCoord(coordOfRightField).occupied){
-            console.log("left right from " + coord.x + "|" + coord.y + "is not reachable!");
+            console.log("left right from " + coord.x + "|" + coord.y + " is not reachable!");
             rightReachable = false;
         }
         var coordOfBelowField: Coord = {x: coord.x, y: coord.y - 1};
         if(coord.y < 1 || this.getFieldAtCoord(coordOfBelowField).occupied){
-            console.log("field below from " + coord.x + "|" + coord.y + "is not reachable!");
+            console.log("field below from " + coord.x + "|" + coord.y + " is not reachable!");
             belowReachable = false;
         }
         var coordOfAboveField: Coord = {x: coord.x, y: coord.y + 1};
-        if(coord.y > (this.height - 1) ||this.getFieldAtCoord(coordOfAboveField)){
-            console.log("field above from " + coord.x + "|" + coord.y + "is not reachable!");
+        if(coord.y > (this.height - 1) ||this.getFieldAtCoord(coordOfAboveField).occupied){
+            console.log("field above from " + coord.x + "|" + coord.y + " is not reachable!");
             aboveReachable = false; 
         }
         fieldsReachable.push(aboveReachable);
