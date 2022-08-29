@@ -510,15 +510,19 @@ function calculateNextMove(gameState: GameState, playBoard: PlayBoard): string{
         //all directions:
         for(var index = 0; index < neighboursSortedByScore.length; index++){
             if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[0].score){
+                console.log("tell snake to move up!");
                 returnStatement = "up";
                 break;
             }else if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[1].score){
+                console.log("tell snake to move down!");
                 returnStatement = "down";
                 break;
             }else if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[2].score){
+                console.log("tell snake to move left!");
                 returnStatement = "left";
                 break;
             }else if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[3].score){
+                console.log("tell snake to move right!");
                 returnStatement = "right";
                 break;
             }
@@ -528,42 +532,51 @@ function calculateNextMove(gameState: GameState, playBoard: PlayBoard): string{
         console.log("it's possible to move up, left and right!");
         for(var index = 0; index < neighboursSortedByScore.length; index++){
             if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[0].score){
+                console.log("tell snake to move up!");
                 returnStatement = "up";
                 break;
             }else if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[2].score){
+                console.log("tell snake to move left!");
                 returnStatement = "left";
                 break;
             }else if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[3].score){
+                console.log("tell snake to move right!");
                 returnStatement = "right";
                 break;
             }
         }
     }else if(possibleMoves[1] && possibleMoves[2] && possibleMoves[3]){
-        console.log("it's possible to move down, left and right!");
         //down, left and right:
+        console.log("it's possible to move down, left and right!");
         for(var index = 0; index < neighboursSortedByScore.length; index++){
             if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[1].score){
+                console.log("tell snake to move down!");
                 returnStatement = "down";
                 break;
             }else if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[2].score){
+                console.log("tell snake to move left!");
                 returnStatement = "left";
                 break;
             }else if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[3].score){
+                console.log("tell snake to move right!");
                 returnStatement = "right";
                 break;
             }
         }
     }else if(possibleMoves[0] && possibleMoves[1] && possibleMoves[3]){
-        console.log("it's possible to move up, down and right!");
         //up, down and right:
+        console.log("it's possible to move up, down and right!");
         for(var index = 0; index < neighboursSortedByScore.length; index++){
             if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[0].score){
+                console.log("tell snake to move up!");
                 returnStatement = "up";
                 break;
             }else if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[1].score){
+                console.log("tell snake to move down!");
                 returnStatement = "down";
                 break;
             }else if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[3].score){
+                console.log("tell snake to move right!");
                 returnStatement = "right";
                 break;
             }
@@ -573,12 +586,15 @@ function calculateNextMove(gameState: GameState, playBoard: PlayBoard): string{
         console.log("it's possible to move up, left and left!");
         for(var index = 0; index < neighboursSortedByScore.length; index++){
             if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[0].score){
+                console.log("tell snake to move up!");
                 returnStatement = "up";
                 break;
             }else if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[1].score){
+                console.log("tell snake to move down!");
                 returnStatement = "down";
                 break;
             }else if(neighboursSortedByScore[index].score === fieldsAroundCurrentCoord[2].score){
+                console.log("tell snake to move left!");
                 returnStatement = "left";
                 break;
             }
@@ -587,46 +603,57 @@ function calculateNextMove(gameState: GameState, playBoard: PlayBoard): string{
         //:down and right:
         console.log("it's possible to move down and right!");
         if(fieldsAroundCurrentCoord[1].score < fieldsAroundCurrentCoord[3].score){
+            console.log("tell snake to move right!");
             returnStatement = "right"
         }else{
+            console.log("tell snake to move down!");
             returnStatement = "down"
         }
     }else if(possibleMoves[1] && possibleMoves[2]){
         //down and left:
         console.log("it's possible to move down and left!");
         if(fieldsAroundCurrentCoord[1].score < fieldsAroundCurrentCoord[2].score){
+            console.log("tell snake to move left!");
             returnStatement = "left"
         }else{
+            console.log("tell snake to move down!");
             returnStatement = "down"
         }
     }else if(possibleMoves[0] && possibleMoves[3]){
         //up and right:
         console.log("it's possible to move up and right!");
         if(fieldsAroundCurrentCoord[0].score < fieldsAroundCurrentCoord[3].score){
+            console.log("tell snake to move right!");
             returnStatement = "right"
         }else{
+            console.log("tell snake to move up!");
             returnStatement = "up"
         }
     }else if(possibleMoves[0] && possibleMoves[2]){
         //up and left:
         console.log("it's possible to move up and left!");
         if(fieldsAroundCurrentCoord[0].score < fieldsAroundCurrentCoord[2].score){
+            console.log("tell snake to move left!");
             returnStatement = "left"
         }else{
+            console.log("tell snake to move up!");
             returnStatement = "up"
         }
     }else if(possibleMoves[0] && possibleMoves[1]){
         console.log("it's possible to move up and down!");
         //up and down:
         if(fieldsAroundCurrentCoord[0].score < fieldsAroundCurrentCoord[1].score){
+            console.log("tell snake to move up!");
             returnStatement = "up"
         }else{
+            console.log("tell snake to move down!");
             returnStatement = "down"
         }
     }else if(possibleMoves[2] && possibleMoves[3]){
         console.log("it's possible to left up and right!");
         //left and right:
         if(fieldsAroundCurrentCoord[2].score < fieldsAroundCurrentCoord[3].score){
+            console.log("tell snake to move right!");
             returnStatement = "right";
         }else{
             returnStatement = "left";
