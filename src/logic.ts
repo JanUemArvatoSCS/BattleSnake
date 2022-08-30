@@ -1,4 +1,5 @@
 import { InfoResponse, GameState, MoveResponse, Game } from "./types";
+import { testgiveBoolean } from "./testcase";
 
 export function info(): InfoResponse {
     console.log("INFO")
@@ -28,18 +29,13 @@ export function move(gameState: GameState): MoveResponse {
         right: true
     }
 
-    //just a test:
-    //let testArray:TwoDimensionalArray = new TwoDimensionalArray(gameState.board.width, gameState.board.height);
-    //testArray.generateGridFromCoord(gameState.you.head);
-    //console.log("finished grid genaration");
-    //for(let indexForW = 0; indexForW < gameState.board.width; indexForW++){
-        //for(let indexForH = 0; indexForH < gameState.board.width; indexForH++){
-            //console.log(testArray.getVector({x: indexForW, y: indexForH})?.getDistanceToOwnHead);
-        //}
-    //}
-    possibleMoves.left = false;
-    possibleMoves.up = false;
-    possibleMoves.right = false;
+    let testvalue = new testgiveBoolean(false);
+
+    possibleMoves.up = testvalue.getTestvalue();
+    possibleMoves.down = testvalue.getTestvalue();
+    possibleMoves.left = testvalue.getTestvalue();
+    possibleMoves.up = testvalue.getTestvalue();
+
 
     const safeMoves = Object.keys(possibleMoves).filter(key => possibleMoves[key])
     const response: MoveResponse = {
