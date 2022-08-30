@@ -63,6 +63,7 @@ export class TwoDimensionalArray{
             let vektorList: Vector[] = new Array();
             let snakeGrid: Vector = this.refreshNeighbourGridRek(startigCoord, vektorList);
             this.replaceVector(startigCoord, snakeGrid);
+            console.log("finished grid generation!");
         }else{
             console.log("coords are not in bounds of playfield. canceling generation process...");
         }
@@ -86,7 +87,6 @@ export class TwoDimensionalArray{
     }
 
     private refreshNeighbourGridRek(startingPos: Coord, listOfVisitedVector: Vector[]): Vector {
-        console.log("generating snakegrid: starting iteration " + listOfVisitedVector.length + 1)
         let returnVector: Vector = this.getVectorForceVector(startingPos);
         listOfVisitedVector.push(returnVector);
         let neighbours = this.getNeighboursInArray(startingPos.x, startingPos.y);
