@@ -1,5 +1,5 @@
 import { InfoResponse, GameState, MoveResponse, Game } from "./types";
-import { Vector } from "./Vector";
+import { TwoDimensionalArray } from "./TwoDimensionalArray";
 
 export function info(): InfoResponse {
     console.log("INFO")
@@ -30,10 +30,10 @@ export function move(gameState: GameState): MoveResponse {
     }
 
     //testcase vector:
-    let testvalue: Vector = new Vector({x: 10, y: 10}, false, 3);
+    let twoDimensionalArray: TwoDimensionalArray = new TwoDimensionalArray(gameState.board.width, gameState.board.height);
+    twoDimensionalArray.generateGridFromCoord(gameState.you.head);
+    console.log("test complete!");
 
-    console.log("initialized Vector!")
-    
 
     const safeMoves = Object.keys(possibleMoves).filter(key => possibleMoves[key])
     const response: MoveResponse = {
