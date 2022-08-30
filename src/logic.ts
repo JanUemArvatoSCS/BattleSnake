@@ -38,6 +38,9 @@ export function move(gameState: GameState): MoveResponse {
             console.log(testArray.getVector({x: indexForW, y: indexForH})?.getDistanceToOwnHead);
         }
     }
+    possibleMoves.left = false;
+    possibleMoves.up = false;
+    possibleMoves.right = false;
 
     const safeMoves = Object.keys(possibleMoves).filter(key => possibleMoves[key])
     const response: MoveResponse = {
