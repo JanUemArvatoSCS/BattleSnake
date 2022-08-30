@@ -1,5 +1,4 @@
 import { InfoResponse, GameState, MoveResponse, Game } from "./types";
-import { TwoDimensionalArray } from "./TwoDimensionalArray";
 
 export function info(): InfoResponse {
     console.log("INFO")
@@ -30,14 +29,14 @@ export function move(gameState: GameState): MoveResponse {
     }
 
     //just a test:
-    let testArray:TwoDimensionalArray = new TwoDimensionalArray(gameState.board.width, gameState.board.height);
-    testArray.generateGridFromCoord(gameState.you.head);
-    console.log("finished grid genaration");
-    for(let indexForW = 0; indexForW < gameState.board.width; indexForW++){
-        for(let indexForH = 0; indexForH < gameState.board.width; indexForH++){
-            console.log(testArray.getVector({x: indexForW, y: indexForH})?.getDistanceToOwnHead);
-        }
-    }
+    //let testArray:TwoDimensionalArray = new TwoDimensionalArray(gameState.board.width, gameState.board.height);
+    //testArray.generateGridFromCoord(gameState.you.head);
+    //console.log("finished grid genaration");
+    //for(let indexForW = 0; indexForW < gameState.board.width; indexForW++){
+        //for(let indexForH = 0; indexForH < gameState.board.width; indexForH++){
+            //console.log(testArray.getVector({x: indexForW, y: indexForH})?.getDistanceToOwnHead);
+        //}
+    //}
     possibleMoves.left = false;
     possibleMoves.up = false;
     possibleMoves.right = false;
