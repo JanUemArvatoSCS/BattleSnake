@@ -30,7 +30,7 @@ export class Vector{
         }
     }
 
-    public getNeighbours(): {[key: string]: Vector} | undefined{
+    public getNeighbours(): {[key: string]: Vector | undefined} | undefined{
         if(this.neighbours.length === 4){
             let directNeighbours: {[key: string]: Vector} = {
                 up: this.neighbours[0],
@@ -44,6 +44,10 @@ export class Vector{
         }
     }
 
+    public getCoord(): Coord{
+        return this.coordOfVektor;
+    }
+
     public isOccupied(): boolean{
         return this.occupied;
     }
@@ -54,6 +58,22 @@ export class Vector{
 
     public getDistanceToOwnHead(): number{
         return this.distanceToOwnHead;
+    }
+    
+    public setCoord(newCoord: Coord){
+        this.coordOfVektor = newCoord;
+    }
+
+    public setOccupied(occupied: boolean){
+        this.occupied = occupied;
+    }
+
+    public setOccupiedFor(occupiedFor: number){
+        this.occupiedFor = occupiedFor;
+    }
+
+    public setDistanceToOwnHead(distanceToOwnHead: number){
+        this.distanceToOwnHead = distanceToOwnHead;
     }
 
     public addNeighbourAbove(neighbour: Vector): void{

@@ -1,4 +1,5 @@
-import { InfoResponse, GameState, MoveResponse, Game } from "./types"
+import { InfoResponse, GameState, MoveResponse, Game } from "./types";
+import { TwoDimensionalArray } from "./TwoDimensionalArray";
 
 export function info(): InfoResponse {
     console.log("INFO")
@@ -27,6 +28,9 @@ export function move(gameState: GameState): MoveResponse {
         left: true,
         right: true
     }
+
+    //just a test:
+    let testArray:TwoDimensionalArray = new TwoDimensionalArray(gameState.board.width, gameState.board.height);
 
     const safeMoves = Object.keys(possibleMoves).filter(key => possibleMoves[key])
     const response: MoveResponse = {
