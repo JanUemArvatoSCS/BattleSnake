@@ -1,5 +1,5 @@
 import { InfoResponse, GameState, MoveResponse, Game } from "./types";
-import { testgiveBoolean } from "./testcase";
+import { Vector } from "./Vector";
 
 export function info(): InfoResponse {
     console.log("INFO")
@@ -29,13 +29,11 @@ export function move(gameState: GameState): MoveResponse {
         right: true
     }
 
-    let testvalue = new testgiveBoolean(false);
+    //testcase vector:
+    let testvalue: Vector = new Vector({x: 10, y: 10}, false, 3);
 
-    possibleMoves.up = testvalue.getTestvalue();
-    possibleMoves.down = testvalue.getTestvalue();
-    possibleMoves.left = testvalue.getTestvalue();
-    possibleMoves.up = testvalue.getTestvalue();
-
+    console.log("initialized Vector!")
+    
 
     const safeMoves = Object.keys(possibleMoves).filter(key => possibleMoves[key])
     const response: MoveResponse = {
