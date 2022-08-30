@@ -1,4 +1,5 @@
-import {Vector, column} from "./typesFor2dArr";
+import { Vector } from "./Vector";
+import {column} from "./typesFor2dArr";
 import {Coord} from "./types";
 import { threadId } from "worker_threads";
 

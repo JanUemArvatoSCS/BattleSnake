@@ -1,39 +1,94 @@
-import {Coord} from "./types";
+import {Coord} from "./types"
 
 export class Vector{
-    
-    private coord: Coord;
+    private coordOfVektor: Coord;
     private occupied: boolean;
-    private neighbours: {[key: string]: Vector | undefined};
-    private occupiedFor: number | undefined;
-    private distanceToOwnHead: number | undefined;
+    private neighbours: Vector[];
+    private occupiedFor: number;
+    private distanceToOwnHead: number;
 
     /**
      * 
-     * @param coord of vector as object symbolizing one field of the playboard.
-     * @param occupied is true if the field isn't reachable for the snake.
-     * @param occupiedFor the time in moves before the field will be free again.
+     * @param coordOfVektor coords of current vector.
+     * @param occupied if the vector is occupied enter true. In any other case enter false.
+     * @param occupiedFor if some moving object is on the field enter the time the object will stay.
+     * @param distanceTwoOwnHead distance between current vector and the head of the own snake.
      * 
-     * @important in case of not editing the neighbours after initializing the vector every neighbour gets initialized as placeholder.
+     * @initializingNeighboursOfCurrentVector while initializing a vector the neighbours are unknown. The neighbour-vectors will be initialized with parameter: coord{x: -11, y: -11}, occupied: false, occupiedFor: 0, distanceToOwnHead: 0.
      */
-    public constructor(coord: Coord, occupied: boolean, occupiedFor: number){
-        this.coord = coord;
+    public constructor(coordOfVektor: Coord, occupied: boolean, occupiedFor: number, distanceToOwnHead: number){
+        this.coordOfVektor = coordOfVektor;
         this.occupied = occupied;
         this.occupiedFor = occupiedFor;
-
-        const placeholder: Vector = new Vector({x: -1, y: -1}, false, 0);
-
-        this.neighbours = {
-            above: placeholder,
-            below: placeholder,
-            left: placeholder,
-            right: placeholder
+        this.distanceToOwnHead = distanceToOwnHead;
+        this.neighbours = new Array();
+        const placeHolder: Vector = new Vector({x: -11, y: -11}, false, 0, 0);
+        let counter: number = 4;
+        while(counter > 0){
+            this.neighbours.push(placeHolder);
+            counter--;
         }
+    }
 
-        this.distanceToOwnHead = undefined;
+    public getNeighbours(): {[key: string]: Vector | undefined} | undefined{
+        if(this.neighbours.length === 4){
+            let directNeighbours: {[key: string]: Vector} = {
+                up: this.neighbours[0],
+                down: this.neighbours[1],
+                left: this.neighbours[2],
+                right: this.neighbours[3]
+            }
+            return directNeighbours;
+        }else{
+            return undefined;
+        }
+    }
+
+    public getCoord(): Coord{
+        return this.coordOfVektor;
     }
 
     public isOccupied(): boolean{
         return this.occupied;
+    }
+
+    public isOccupiedFor(): number{
+        return this.occupiedFor;
+    }
+
+    public getDistanceToOwnHead(): number{
+        return this.distanceToOwnHead;
+    }
+    
+    public setCoord(newCoord: Coord){
+        this.coordOfVektor = newCoord;
+    }
+
+    public setOccupied(occupied: boolean){
+        this.occupied = occupied;
+    }
+
+    public setOccupiedFor(occupiedFor: number){
+        this.occupiedFor = occupiedFor;
+    }
+
+    public setDistanceToOwnHead(distanceToOwnHead: number){
+        this.distanceToOwnHead = distanceToOwnHead;
+    }
+
+    public addNeighbourAbove(neighbour: Vector): void{
+        this.neighbours[0] = neighbour;
+    }
+
+    public addNeighbourBelow(neighbour: Vector): void{
+        this.neighbours[1] = neighbour;
+    }
+
+    public addNeighbourLeft(neighbour: Vector): void{
+        this.neighbours[2] = neighbour;
+    }
+
+    public addNeighbourRight(neighbour: Vector): void{
+        this.neighbours[3] = neighbour;
     }
 }
