@@ -1,5 +1,4 @@
 import { InfoResponse, GameState, MoveResponse, Game } from "./types";
-import { TwoDimensionalArray } from "./TwoDimensionalArray";
 
 export function info(): InfoResponse {
     console.log("INFO")
