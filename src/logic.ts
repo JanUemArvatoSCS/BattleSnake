@@ -31,6 +31,7 @@ export function move(gameState: GameState): MoveResponse {
 
     //testcase vector:
     let twoDimensionalArray: TwoDimensionalArray = new TwoDimensionalArray(gameState.board.width, gameState.board.height);
+    console.log("hallo");
     twoDimensionalArray.generateGridFromCoord(gameState.you.head);
     console.log("test complete!");
 
