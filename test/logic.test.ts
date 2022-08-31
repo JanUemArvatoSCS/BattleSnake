@@ -1,4 +1,5 @@
 import { info, move } from '../src/logic'
+import { TwoDimensionalArray } from '../src/TwoDimensionalArray';
 import { Battlesnake, Coord, GameState, MoveResponse } from '../src/types';
 
 //function createGameState(me: Battlesnake): GameState {
@@ -40,6 +41,12 @@ describe('Battlesnake API Version', () => {
     it('should be api version 1', () => {
         const result = info()
         expect(result.apiversion).toBe("1")
+    })
+})
+
+describe('TwoDimensionalArray', () => {
+    it('can be constructed', () => {
+        const result = new TwoDimensionalArray(10, 10);
     })
 })
 

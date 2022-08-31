@@ -22,12 +22,7 @@ export class Vector{
         this.occupiedFor = occupiedFor;
         this.distanceToOwnHead = distanceToOwnHead;
         this.neighbours = new Array();
-        const placeHolder: Vector = new Vector({x: -11, y: -11}, false, 0, 0);
-        let counter: number = 4;
-        while(counter > 0){
-            this.neighbours.push(placeHolder);
-            counter--;
-        }
+
     }
 
     public getNeighbours(): {[key: string]: Vector | undefined} | undefined{
