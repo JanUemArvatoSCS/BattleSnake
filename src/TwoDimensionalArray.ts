@@ -145,6 +145,19 @@ export class TwoDimensionalArray {
         let neighbours: {[key: string]: Playfield | undefined} | undefined = this.getNeighbours(currentCoord);
         playfieldsVisited.push(currentPlayfield);
 
+        if(!(this.isInRangeOfArray({x: currentCoord.x, y: currentCoord.y + 1}))){
+            visitAbove = false;
+        }
+        if(!(this.isInRangeOfArray({x: currentCoord.x, y: currentCoord.y - 1}))){
+            visitBelow = false;
+        }
+        if(!(this.isInRangeOfArray({x: currentCoord.x - 1, y: currentCoord.y}))){
+            visitLeft = false;
+        }
+        if(!(this.isInRangeOfArray({x: currentCoord.x + 1, y: currentCoord.y}))){
+            visitRight = false;
+        }
+
         if(neighbours){
             for(let index = 0; index < playfieldsVisited.length; index++){
                 if(neighbours.above && JSON.stringify(neighbours.above) === JSON.stringify(playfieldsVisited[index])){
