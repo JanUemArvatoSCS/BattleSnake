@@ -1,8 +1,11 @@
+import { Coord } from "../src/types";
+
 export class Playfield{
 
     private occupied: boolean;
     private occupiedFor: number | undefined;
     private distanceToOwnHead: number | undefined;
+    private coord: Coord | undefined;
     private neighbours: {[key: string]: Playfield | undefined};
 
     public constructor(occupied: boolean){
@@ -50,6 +53,14 @@ export class Playfield{
         }
     }
 
+    public getCoord(): Coord | undefined{
+        if(this.coord){
+            return this.coord;
+        }else{
+            return undefined;
+        }
+    }
+
     /**
      * 
      * @returns an array with the neighbours of the playfield. The neighbours are normaly initialized as undefined and just can be used in case of route calculation.
@@ -80,6 +91,10 @@ export class Playfield{
      */
     public setDistanceToOwnHead(distanceToOwnHead: number | undefined): void{
         this.distanceToOwnHead = distanceToOwnHead;
+    }
+
+    public setCoord(x: number, y: number): void{
+        this.coord = {x: x, y: y};
     }
 
     /**

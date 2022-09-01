@@ -17,11 +17,13 @@ export class TwoDimensionalArray {
         this.height = height;
         this.twoDimArray = new Array();
 
-        const initField: Playfield = new Playfield(false);
+        
         for(let indexForWidth = 0; indexForWidth < this.width; indexForWidth++){
             let rowsArray: Playfield[] = new Array();
             let oneColumn: column = {rows: rowsArray};
             for(let indexForHeight = 0; indexForHeight < this.height; indexForHeight++){
+                let initField: Playfield = new Playfield(false);
+                initField.setCoord(indexForWidth, indexForHeight);
                 rowsArray.push(initField);
             }
             this.twoDimArray.push(oneColumn);
@@ -146,8 +148,8 @@ export class TwoDimensionalArray {
         if(neighbours){
             for(let index = 0; index < playfieldsVisited.length; index++){
                 if(neighbours.above && JSON.stringify(neighbours.above) === JSON.stringify(playfieldsVisited[index])){
-                    console.log(currentCoord.x + "|" + (currentCoord.y + 1) + " already has been added. No more neighbour above.");
                     visitAbove = false;
+                    console.log(currentCoord.x + "|" + (currentCoord.y + 1) + " already has been added. No more neighbour above.");
                 }
                 if(neighbours.below && JSON.stringify(neighbours.below) === JSON.stringify(playfieldsVisited[index])){
                     visitBelow = false;
