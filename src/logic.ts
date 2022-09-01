@@ -28,13 +28,6 @@ export function move(gameState: GameState): MoveResponse {
         right: true
     }
 
-    //testcase vector:
-    let twoDimensionalArray: TwoDimensionalArray = new TwoDimensionalArray(gameState.board.width, gameState.board.height);
-    console.log("hallo");
-    twoDimensionalArray.generateGridFromCoord(gameState.you.head);
-    console.log("test complete!");
-
-
     const safeMoves = Object.keys(possibleMoves).filter(key => possibleMoves[key])
     const response: MoveResponse = {
         move: safeMoves[Math.floor(Math.random() * safeMoves.length)],
