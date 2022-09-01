@@ -160,19 +160,19 @@ export class TwoDimensionalArray {
 
         if(neighbours){
             for(let index = 0; index < playfieldsVisited.length; index++){
-                if(neighbours.above && JSON.stringify(neighbours.above) === JSON.stringify(playfieldsVisited[index])){
+                if(neighbours.above && JSON.stringify(neighbours.above.getCoord()) === JSON.stringify(playfieldsVisited[index].getCoord())){
                     visitAbove = false;
                     console.log(currentCoord.x + "|" + (currentCoord.y + 1) + " already has been added. No more neighbour above.");
                 }
-                if(neighbours.below && JSON.stringify(neighbours.below) === JSON.stringify(playfieldsVisited[index])){
+                if(neighbours.below && JSON.stringify(neighbours.below.getCoord()) === JSON.stringify(playfieldsVisited[index].getCoord())){
                     visitBelow = false;
                     console.log(currentCoord.x + "|" + (currentCoord.y - 1) + " already has been added. No more neighbour below.");
                 }
-                if(neighbours.right && JSON.stringify(neighbours.right) === JSON.stringify(playfieldsVisited[index])){
+                if(neighbours.right && JSON.stringify(neighbours.right.getCoord()) === JSON.stringify(playfieldsVisited[index].getCoord())){
                     visitRight = false;
                     console.log((currentCoord.x + 1) + "|" + currentCoord.y + " already has been added. No more neighbour right.");
                 }
-                if(neighbours.left && JSON.stringify(neighbours.left) === JSON.stringify(playfieldsVisited[index])){
+                if(neighbours.left && JSON.stringify(neighbours.left.getCoord()) === JSON.stringify(playfieldsVisited[index].getCoord())){
                     visitLeft = false;
                     console.log((currentCoord.x - 1) + "|" + currentCoord.y + " already has been added. No more neighbour left.");
                 }

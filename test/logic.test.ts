@@ -62,8 +62,9 @@ describe('Generating Grid', () => {
         newPlayfield.setDistanceToOwnHead(3);
         twoDimArray.overwrite({x: 4, y: 0}, newPlayfield);
         let playFieldWithGrid = twoDimArray.generateGrid({x: 4, y: 3});
-        expect(playFieldWithGrid?.getNeighbours().below?.getNeighbours().below?.getNeighbours().below?.getDistanceToOwnHead()).toBe(3);
+        expect(playFieldWithGrid?.getNeighbours().below?.getNeighbours().below?.getNeighbours().below?.getDistanceToOwnHead()).toBe(4);
         expect(twoDimArray.generateGrid({x:9, y: 34})).toBe(undefined);
+        expect(playFieldWithGrid?.getNeighbours().left?.getCoord()?.x).toBe(3);
     })
 })
 
