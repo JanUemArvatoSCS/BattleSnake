@@ -84,8 +84,8 @@ export class TwoDimensionalArray {
         if(this.isInRangeOfArray(coord)){
             let neigbourAbove: Playfield | undefined = this.getPlayField({x: coord.x, y: coord.y + 1});
             let neigbourBelow: Playfield | undefined = this.getPlayField({x: coord.x, y: coord.y - 1});
-            let neigbourLeft: Playfield | undefined = this.getPlayField({x: coord.x, y: coord.y - 1});
-            let neigbourRight: Playfield | undefined = this.getPlayField({x: coord.x, y: coord.y + 1});
+            let neigbourLeft: Playfield | undefined = this.getPlayField({x: coord.x - 1, y: coord.y});
+            let neigbourRight: Playfield | undefined = this.getPlayField({x: coord.x + 1, y: coord.y});
 
             let neigbours: {[key: string]: Playfield | undefined} = {
                 above: neigbourAbove,
@@ -114,88 +114,19 @@ export class TwoDimensionalArray {
         }
     }
 
-    public generateGrid(coord: Coord): Playfield | undefined{
-        if(this.isInRangeOfArray(coord)){
-            console.log(coord.x + "|" + coord.y + " are in bounds of array starting grid generation:")
-            let playfieldsReachable: Playfield[] = new Array();
-            let playfieldWithGrid: Playfield = this.gridGeneratorRek(coord, playfieldsReachable);
-            return playfieldWithGrid;
-        }else{
-            console.log("-ERR 002: " + coord.x + "|" + coord.y + " are out of bounds!");
-            return undefined;
-        }
-    }
-
-    /**
-     * 
-     * @param currentCoord of playfield the methode is adding to grid by getting it's neighbours.
-     * @param playfieldsVisited an array of playfield being already part of the grid.
-     * @returns a playfield with a grid of reachable fields saved in his neighbours.
-     */
-    private gridGeneratorRek(currentCoord: Coord, playfieldsVisited: Playfield[]): Playfield{
-        let visitAbove: boolean = true;
-        let visitBelow: boolean = true;
-        let visitLeft: boolean = true;
-        let visitRight: boolean = true;
-
-        console.log("Iteration: " + (playfieldsVisited.length + 1))
-
-        let currentPlayfield: Playfield = this.getPlayFieldForceType(currentCoord);
-        currentPlayfield.setDistanceToOwnHead(playfieldsVisited.length);
-        let neighbours: {[key: string]: Playfield | undefined} | undefined = this.getNeighbours(currentCoord);
-        playfieldsVisited.push(currentPlayfield);
-
-        if(!(this.isInRangeOfArray({x: currentCoord.x, y: currentCoord.y + 1}))){
-            visitAbove = false;
-        }
-        if(!(this.isInRangeOfArray({x: currentCoord.x, y: currentCoord.y - 1}))){
-            visitBelow = false;
-        }
-        if(!(this.isInRangeOfArray({x: currentCoord.x - 1, y: currentCoord.y}))){
-            visitLeft = false;
-        }
-        if(!(this.isInRangeOfArray({x: currentCoord.x + 1, y: currentCoord.y}))){
-            visitRight = false;
-        }
-
-        if(neighbours){
-            for(let index = 0; index < playfieldsVisited.length; index++){
-                if(neighbours.above && JSON.stringify(neighbours.above.getCoord()) === JSON.stringify(playfieldsVisited[index].getCoord())){
-                    visitAbove = false;
-                    console.log(currentCoord.x + "|" + (currentCoord.y + 1) + " already has been added. No more neighbour above.");
-                }
-                if(neighbours.below && JSON.stringify(neighbours.below.getCoord()) === JSON.stringify(playfieldsVisited[index].getCoord())){
-                    visitBelow = false;
-                    console.log(currentCoord.x + "|" + (currentCoord.y - 1) + " already has been added. No more neighbour below.");
-                }
-                if(neighbours.right && JSON.stringify(neighbours.right.getCoord()) === JSON.stringify(playfieldsVisited[index].getCoord())){
-                    visitRight = false;
-                    console.log((currentCoord.x + 1) + "|" + currentCoord.y + " already has been added. No more neighbour right.");
-                }
-                if(neighbours.left && JSON.stringify(neighbours.left.getCoord()) === JSON.stringify(playfieldsVisited[index].getCoord())){
-                    visitLeft = false;
-                    console.log((currentCoord.x - 1) + "|" + currentCoord.y + " already has been added. No more neighbour left.");
-                }
+    private playfieldIsInArray(playfield: Playfield, fieldArray: Playfield[]): boolean{
+        let found: boolean = false;
+        for(let index = 0; index < fieldArray.length; index++){
+            if(playfield.getCoord()?.x === fieldArray[index].getCoord()?.x && playfield.getCoord()?.y === fieldArray[index].getCoord()?.y){
+                found = true;
             }
-
-            if(neighbours.above && !(neighbours.above.isOccupied()) && visitAbove){
-                currentPlayfield.setNeighbour("above", this.gridGeneratorRek({x: currentCoord.x, y: currentCoord.y + 1}, playfieldsVisited));
-            }
-            if(neighbours.below && !(neighbours.below.isOccupied()) && visitBelow){
-                currentPlayfield.setNeighbour("below", this.gridGeneratorRek({x: currentCoord.x, y: currentCoord.y - 1}, playfieldsVisited));
-            }
-            if(neighbours.left && !(neighbours.left.isOccupied()) && visitLeft){
-                currentPlayfield.setNeighbour("left", this.gridGeneratorRek({x: currentCoord.x - 1, y: currentCoord.y}, playfieldsVisited));
-            }
-            if(neighbours.right && !(neighbours.right.isOccupied()) && visitRight){
-                currentPlayfield.setNeighbour("right", this.gridGeneratorRek({x: currentCoord.x + 1, y: currentCoord.y}, playfieldsVisited));
-            }
-
         }
-        return currentPlayfield;
+        return found;
     }
 
     private getPlayFieldForceType(coord: Coord): Playfield{
         return this.twoDimArray[coord.x].rows[coord.y];
     }
+
+    
 }

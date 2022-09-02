@@ -3,15 +3,17 @@ import { Coord } from "../src/types";
 export class Playfield{
 
     private occupied: boolean;
-    private occupiedFor: number | undefined;
-    private distanceToOwnHead: number | undefined;
+    public occupiedFor: number | undefined;
+    public distanceToOwnHead: number | undefined;
     private coord: Coord | undefined;
     private neighbours: {[key: string]: Playfield | undefined};
+    private visited: boolean;
 
     public constructor(occupied: boolean){
         this.occupied = occupied;
         this.occupiedFor = undefined;
         this.distanceToOwnHead = undefined;
+        this.visited = false;
 
         this.neighbours = {
             above: undefined,
@@ -114,6 +116,18 @@ export class Playfield{
         }else{
             console.log("-ERR 001: " + "'" + key + "'" + "isn't an existing neighbour!");
         }
+    }
+
+    /**
+     * 
+     * @returns true if the field was already visited.
+     */
+    public alreadyVisited(): boolean{
+        return this.visited;
+    } 
+
+    public setVisited(visited: boolean): void{
+        this. visited = visited;
     }
 
 }

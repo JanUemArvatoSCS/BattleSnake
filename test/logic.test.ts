@@ -55,16 +55,26 @@ describe('TwoDimensionalArray getting Neighbours', () => {
     })
 })
 
-describe('Generating Grid', () => {
-    it('generating a playfield with all of its reachable fields', () => {
-        const twoDimArray: TwoDimensionalArray = new TwoDimensionalArray(5, 5);
-        let newPlayfield: Playfield = new Playfield(false);
-        newPlayfield.setDistanceToOwnHead(3);
-        twoDimArray.overwrite({x: 4, y: 0}, newPlayfield);
-        let playFieldWithGrid = twoDimArray.generateGrid({x: 4, y: 3});
-        expect(playFieldWithGrid?.getNeighbours().below?.getNeighbours().below?.getNeighbours().below?.getDistanceToOwnHead()).toBe(4);
-        expect(twoDimArray.generateGrid({x:9, y: 34})).toBe(undefined);
-        expect(playFieldWithGrid?.getNeighbours().left?.getCoord()?.x).toBe(3);
+describe('Declarating Coords', () => {
+    it('checking the coords of playfields in array', () => {
+        let twoDimArray: TwoDimensionalArray = new TwoDimensionalArray(10, 10);
+        let playfield: Playfield | undefined = twoDimArray.getPlayField({x: 3, y: 5});
+        expect(playfield?.getCoord()?.x).toBe(3);
+        expect(playfield?.getCoord()?.y).toBe(5);
+    })
+})
+
+describe('Setting Neighbours', () => {
+    it('checking for the reight neighbour initialization', () => {
+        let twoDimArray: TwoDimensionalArray = new TwoDimensionalArray(10, 10);
+        let playfield: Playfield | undefined = twoDimArray.getPlayField({x: 3, y: 5});
+        playfield?.setNeighbour("above", twoDimArray.getNeighbours({x: 3, y: 5})?.above);
+        expect(playfield?.getNeighbours()?.above?.getCoord()?.y).toBe(6);
+        let doubleNeighbour: Playfield | undefined = twoDimArray.getPlayField({x: 3, y: 6});
+        let neighbourAboveDouble: Playfield | undefined = twoDimArray.getNeighbours({x: 3, y: 6})?.above;
+        doubleNeighbour?.setNeighbour("above", neighbourAboveDouble);
+        playfield?.setNeighbour("above", doubleNeighbour);
+        expect(playfield?.getNeighbours().above?.getNeighbours().above?.getCoord()?.y).toBe(7);
     })
 })
 
