@@ -38,8 +38,23 @@ function createGameState(me: Battlesnake): GameState {
             height: 7,
             width: 7,
             food: [{x: 3, y: 3}],
-            snakes: [me],
-            hazards: []
+            snakes: [me, {
+                id: "2",
+                name: "testsnake",
+                health: 100,
+                body: [{x: 2, y: 4}, {x: 1, y: 4}],
+                latency: "",
+                head: {x: 2, y: 4},
+                length: 2,
+                customizations: {
+                    color: "#888888",
+                    head: "default",
+                    tail: "default"
+                },
+                shout: "",
+                squad: ""
+            }],
+            hazards: [{x: 1, y: 1}]
         },
         you: me
     }
@@ -142,6 +157,10 @@ describe('Grid Coords', () => {
     it('checking for Playfields in Grid are on the right pos.', () => {
         let playboard: Gridboard = new Gridboard(createGameState(createBattlesnake()));
         console.log("sucessfully generated playboard!");
+        expect(playboard.playboard.getPlayField({x:1, y:1})?.isOccupied()).toBe(true);
+        expect(playboard.playboard.getPlayField({x:1, y:4})?.isOccupied()).toBe(true);
+        expect(playboard.playboard.getPlayField({x:2, y:4})?.isOccupiedFor()).toBe(2);
+        expect(playboard.playboard.getPlayField({x:2, y:4})?.getDistanceToOwnHead()).toBe(2);
     })
 })
 

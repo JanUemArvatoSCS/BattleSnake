@@ -9,7 +9,7 @@ export class Gridboard {
     private battlesnakes: Battlesnake[];
     private hazards: Coord[];
     private behaviour: string;
-    private playboard: TwoDimensionalArray;
+    public playboard: TwoDimensionalArray;
 
     public constructor(gameState: GameState){
         this.gameState = gameState;
@@ -18,6 +18,39 @@ export class Gridboard {
         this.hazards = gameState.board.hazards;
         this.playboard = new TwoDimensionalArray(this.gameState.board.width, this.gameState.board.height);
         this.behaviour = this.calculateBehaviour();
+
+        this.upgradePlayboardInformation();
+    }
+
+    private upgradePlayboardInformation(): void{
+  
+        //checkForOtherSnakes:
+        for(let indexForSnakeArray = 0; indexForSnakeArray < this.battlesnakes.length; indexForSnakeArray++){
+            for(let indexForSnakeBody = 0; indexForSnakeBody < this.battlesnakes[indexForSnakeArray].length; indexForSnakeBody++){
+                let currentField = this.playboard.getPlayField(this.battlesnakes[indexForSnakeArray].body[indexForSnakeBody]);
+                if(currentField){
+                    let coordOfCurrentField = currentField.getCoord();
+                    if(coordOfCurrentField){
+                        currentField.setOccupied(true);
+                        currentField.setOccupiedFor(this.battlesnakes[indexForSnakeArray].body.length - indexForSnakeBody);
+                        currentField.setDistanceToOwnHead(this.calculateDistanceBetweenCoords(coordOfCurrentField, this.gameState.you.head));
+                        this.playboard.overwrite(coordOfCurrentField, currentField);
+                    }
+                }
+            }
+        }
+
+        //checkForHazards:
+        for(let index = 0; index < this.hazards.length; index++){
+            let currentField = this.playboard.getPlayField(this.hazards[index]);
+            let coordOfCurrentField = currentField?.getCoord();
+            if(currentField && coordOfCurrentField){
+                currentField.setOccupied(true);
+                this.playboard.overwrite(coordOfCurrentField, currentField);
+            }
+        
+        }
+              
     }
 
     private calculateBehaviour(): string{
@@ -46,11 +79,11 @@ export class Gridboard {
         }else{
             //if play against other snakes
             const ownLength = this.gameState.you.length;
-            let biggestEnemy: number = this.battlesnakes[0].length;
+            let biggestEnemy: number = this.battlesnakes[0].body.length;
             
             for(let indexForSnakeArray = 1; indexForSnakeArray < this.battlesnakes.length; indexForSnakeArray++){
                if(this.battlesnakes[indexForSnakeArray].length > biggestEnemy && this.battlesnakes[indexForSnakeArray].id != this.gameState.you.id){
-                    biggestEnemy = this.battlesnakes[indexForSnakeArray].length;
+                    biggestEnemy = this.battlesnakes[indexForSnakeArray].body.length;
                }
             }
 
