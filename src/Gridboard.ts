@@ -20,19 +20,6 @@ export class Gridboard {
         this.behaviour = this.calculateBehaviour();
     }
 
-    public print(): void{
-        for(let indexForHeight = (this.playboard.getHeight() - 1); indexForHeight >= 0; indexForHeight--){
-            let oneLine: string = "|";
-            for(let indexForWidth = 0; indexForHeight < this.playboard.getWidth(); indexForWidth++){
-                oneLine += " ";
-                oneLine += "(" + this.playboard.getPlayField({x: indexForWidth, y: indexForHeight})?.getCoord()?.x;
-                oneLine += ", " + this.playboard.getPlayField({x: indexForWidth, y: indexForHeight})?.getCoord()?.y; + ")"
-                oneLine += " |";
-            }
-            console.log(oneLine);
-        }
-    }
-
     private calculateBehaviour(): string{
         const loop: string = "loopMode";
         const hungry: string = "hungryMode";

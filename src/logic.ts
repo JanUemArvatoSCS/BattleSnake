@@ -32,7 +32,6 @@ export function move(gameState: GameState): MoveResponse {
 
     //testcase:
     let playboard: Gridboard = new Gridboard(gameState);
-    playboard.print();
 
     const safeMoves = Object.keys(possibleMoves).filter(key => possibleMoves[key])
     const response: MoveResponse = {

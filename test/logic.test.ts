@@ -4,6 +4,66 @@ import { Playfield } from '../src/Playfield';
 import { TwoDimensionalArray } from '../src/TwoDimensionalArray';
 import { column } from '../src/Interfaces';
 import exp from 'constants';
+import { Gridboard } from '../src/Gridboard';
+
+function createGameState(me: Battlesnake): GameState {
+    return {
+        game: {
+            id: "",
+            ruleset: { 
+                name: "",
+                version: "",
+                settings: {
+                    foodSpawnChance: 0,
+                    minimumFood: 0,
+                    hazardDamagePerTurn: 0,
+                    hazardMap: "",
+                    hazardMapAuthor: "",
+                    royale: {
+                        shrinkEveryNTurns: 0
+                    },
+                    squad: {
+                        allowBodyCollisions: true,
+                        sharedElimination: false,
+                        sharedHealth: false,
+                        sharedLength: false
+                    }
+                } 
+            },
+            timeout: 0,
+            source: ""
+        },
+        turn: 0,
+        board: {
+            height: 7,
+            width: 7,
+            food: [{x: 3, y: 3}],
+            snakes: [me],
+            hazards: []
+        },
+        you: me
+    }
+}
+
+function createBattlesnake(): Battlesnake {
+    return {
+        id: "",
+        name: "",
+        health: 100,
+        body: [{x:4, y:4}, {x: 5, y: 4}],
+        latency: "",
+        head: {x:4, y: 4},
+        length: 2,
+        customizations: {
+            color: "#888888",
+            head: "default",
+            tail: "default"
+        },
+        shout: "",
+        squad: ""
+    }
+}
+
 
 describe('Battlesnake API Version', () => {
     it('should be api version 1', () => {
@@ -75,6 +135,13 @@ describe('Setting Neighbours', () => {
         doubleNeighbour?.setNeighbour("above", neighbourAboveDouble);
         playfield?.setNeighbour("above", doubleNeighbour);
         expect(playfield?.getNeighbours().above?.getNeighbours().above?.getCoord()?.y).toBe(7);
+    })
+})
+
+describe('Grid Coords', () => {
+    it('checking for Playfields in Grid are on the right pos.', () => {
+        let playboard: Gridboard = new Gridboard(createGameState(createBattlesnake()));
+        console.log("sucessfully generated playboard!");
     })
 })
 
