@@ -2,7 +2,7 @@ import { TwoDimensionalArray } from "./TwoDimensionalArray";
 import { GameState, Battlesnake, Coord, Board } from "./types";
 import { Playfield } from "./Playfield";
 
-export class Grid {
+export class Gridboard {
 
     private gameState: GameState;
     private food: Coord[];
@@ -20,7 +20,7 @@ export class Grid {
         this.behaviour = this.calculateBehaviour();
     }
 
-    public printPlayboard(): void{
+    public print(): void{
         for(let indexForHeight = (this.playboard.getHeight() - 1); indexForHeight >= 0; indexForHeight--){
             let oneLine: string = String(indexForHeight) + ": |";
             for(let indexForWidth = 0; indexForHeight < this.playboard.getWidth(); indexForWidth++){

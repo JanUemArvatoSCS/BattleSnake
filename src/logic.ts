@@ -1,6 +1,7 @@
 import { TwoDimensionalArray } from "./TwoDimensionalArray";
 import { InfoResponse, GameState, MoveResponse, Game } from "./types";
-import { Playfield } from "./Playfield";
+import { Gridboard } from "./Gridboard";
+
 
 export function info(): InfoResponse {
     console.log("INFO")
@@ -31,11 +32,7 @@ export function move(gameState: GameState): MoveResponse {
     }
 
     //testcase:
-    let twoDimArray: TwoDimensionalArray = new TwoDimensionalArray(5, 5);
-    let playFieldWithGrid: Playfield | undefined = twoDimArray.generateGrid({x:3, y: 3});
-    if(playFieldWithGrid){
-        console.log(playFieldWithGrid.getNeighbours().below?.getDistanceToOwnHead);
-    }
+    let playboard: Grid = new Grid(gameState);
 
     const safeMoves = Object.keys(possibleMoves).filter(key => possibleMoves[key])
     const response: MoveResponse = {
