@@ -1,7 +1,6 @@
 import { TwoDimensionalArray } from "./TwoDimensionalArray";
 import { InfoResponse, GameState, MoveResponse, Game } from "./types";
-import { Gridboard } from "./Gridboard";
-
+import { Gridboard } from "./Gridboard"
 
 export function info(): InfoResponse {
     console.log("INFO")
@@ -32,7 +31,7 @@ export function move(gameState: GameState): MoveResponse {
     }
 
     //testcase:
-    let playboard: Grid = new Grid(gameState);
+    let playboard: Gridboard = new Gridboard(gameState);
 
     const safeMoves = Object.keys(possibleMoves).filter(key => possibleMoves[key])
     const response: MoveResponse = {
