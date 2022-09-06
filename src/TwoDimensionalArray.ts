@@ -94,12 +94,6 @@ export class TwoDimensionalArray {
                 right: neigbourRight
             }
 
-            console.log("neighbours of " + coord.x + "|" + coord.y + ": ");
-            console.log("above: " + neigbourAbove);
-            console.log("below: " + neigbourBelow);
-            console.log("left: " + neigbourLeft);
-            console.log("right: " + neigbourRight);
-
             return neigbours;
         }else{
             console.log("-ERR 002: " + coord.x + "|" + coord.y + " are out of bounds!");
