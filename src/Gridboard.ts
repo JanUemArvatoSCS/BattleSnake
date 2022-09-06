@@ -99,23 +99,29 @@ export class Gridboard {
 
         //add occpied for othter snakes...
         if(neighbours){
+            console.log("found neighbours!");
             if(!neighbours.above || neighbours.above.isOccupied()){
                 priorityMoves.moveUp.available = false;
+                console.log("upper neighbour is not reachable! (Z. 105)");
             }
             if(!neighbours.below || neighbours.below.isOccupied()){
                 priorityMoves.moveDown.available = false;
+                console.log("lower neighbour is not reachable! (Z. 109)");
             }
             if(!neighbours.left || neighbours.left.isOccupied()){
                 priorityMoves.moveLeft.available = false;
+                console.log("left neighbour is not reachable! (Z. 113)");
             }
             if(!neighbours.right || neighbours.right.isOccupied()){
                 priorityMoves.moveRight.available = false;
+                console.log("right neighbour is not reachable! (Z. 117)");
             }
         }else{
             priorityMoves.moveUp.available = false;
             priorityMoves.moveDown.available = false;
             priorityMoves.moveLeft.available = false;
             priorityMoves.moveRight.available = false;
+            console.log("no neighbour is reachable! (Z. 124)");
         }
 
         let shortestDistance: number | undefined;
