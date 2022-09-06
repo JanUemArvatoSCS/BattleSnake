@@ -114,6 +114,41 @@ export class TwoDimensionalArray {
         }
     }
 
+    public occupieFieldsWithThreeOccupiedNeighbours(): void{
+        for(let indexForW: number = 0; indexForW < this.width; indexForW++){
+            for(let indexForH: number = 0; indexForH < this.height; indexForH++){
+                let currentCoord: Coord = {x: indexForW, y: indexForH};
+                let occupiedNeighbours: number = 0;
+                let neighbours = this.getNeighbours(currentCoord);
+                if(neighbours){
+                    if(!(neighbours.above) || neighbours.above.isOccupied()){
+                        occupiedNeighbours++;
+                    }
+                    if(!(neighbours.below) || neighbours.below.isOccupied()){
+                        occupiedNeighbours++;
+                    }
+                    if(!(neighbours.left) || neighbours.left.isOccupied()){
+                        occupiedNeighbours++;
+                    }
+                    if(!(neighbours.right) || neighbours.right.isOccupied()){
+                        occupiedNeighbours++;
+                    }
+                    if(occupiedNeighbours >= 3){
+                        this.twoDimArray[indexForW].rows[indexForH].setOccupied(true);
+                    }
+                }
+            }
+        }
+    }
+
+    public setForAllFieldsVisited(visited: boolean) : void{
+        for(let indexForW: number = 0; indexForW < this.width; indexForW++){
+            for(let indexForH: number = 0; indexForH < this.height; indexForH++){
+                this.twoDimArray[indexForW].rows[indexForH].visited = visited;
+            }
+        }
+    }
+
     private playfieldIsInArray(playfield: Playfield, fieldArray: Playfield[]): boolean{
         let found: boolean = false;
         for(let index = 0; index < fieldArray.length; index++){

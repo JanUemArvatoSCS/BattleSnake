@@ -35,26 +35,11 @@ function createGameState(me: Battlesnake): GameState {
         },
         turn: 0,
         board: {
-            height: 7,
-            width: 7,
-            food: [{x: 3, y: 3}],
-            snakes: [me, {
-                id: "2",
-                name: "testsnake",
-                health: 100,
-                body: [{x: 2, y: 4}, {x: 1, y: 4}],
-                latency: "",
-                head: {x: 2, y: 4},
-                length: 2,
-                customizations: {
-                    color: "#888888",
-                    head: "default",
-                    tail: "default"
-                },
-                shout: "",
-                squad: ""
-            }],
-            hazards: [{x: 1, y: 1}]
+            height: 5,
+            width: 5,
+            food: [],
+            snakes: [me],
+            hazards: [{x:2, y: 4}, {x: 2, y: 3}, {x:1, y: 3}, {x:0, y: 3}]
         },
         you: me
     }
@@ -65,10 +50,10 @@ function createBattlesnake(): Battlesnake {
         id: "",
         name: "",
         health: 100,
-        body: [{x:4, y:4}, {x: 5, y: 4}],
+        body: [{x:1, y:2}, {x: 0, y: 2}, {x:0, y: 1}, {x:0, y: 0}],
         latency: "",
-        head: {x:4, y: 4},
-        length: 2,
+        head: {x:1, y: 2},
+        length: 4,
         customizations: {
             color: "#888888",
             head: "default",
@@ -80,7 +65,7 @@ function createBattlesnake(): Battlesnake {
 }
 
 
-describe('Battlesnake API Version', () => {
+/* describe('Battlesnake API Version', () => {
     it('should be api version 1', () => {
         const result = info()
         expect(result.apiversion).toBe("1")
@@ -161,6 +146,36 @@ describe('Grid Coords', () => {
         expect(playboard.playboard.getPlayField({x:1, y:4})?.isOccupied()).toBe(true);
         expect(playboard.playboard.getPlayField({x:2, y:4})?.isOccupiedFor()).toBe(2);
         expect(playboard.playboard.getPlayField({x:2, y:4})?.getDistanceToOwnHead()).toBe(2);
+        
     })
 })
 
+describe('Grid Coords', () => {
+    it('checking for Playfields in Grid are on the right pos.', () => {
+        let playboard: Gridboard = new Gridboard(createGameState(createBattlesnake()));
+        console.log("sucessfully generated playboard!");
+        expect(playboard.playboard.getPlayField({x:1, y:1})?.isOccupied()).toBe(true);
+        expect(playboard.playboard.getPlayField({x:1, y:4})?.isOccupied()).toBe(true);
+        expect(playboard.playboard.getPlayField({x:2, y:4})?.isOccupiedFor()).toBe(2);
+        expect(playboard.playboard.getPlayField({x:2, y:4})?.getDistanceToOwnHead()).toBe(2);
+        
+    })
+}) */
+
+/* describe('countung free fields', () => {
+    it('checking for reachable fields.', () => {
+        let playboard: Gridboard = new Gridboard(createGameState(createBattlesnake()));
+        let counterForLeft = playboard.countFreeFields({x: 0, y: 4}, 0);
+        playboard.playboard.setForAllFieldsVisited(false);
+        let counterForRight = playboard.countFreeFields({x: 2, y: 4}, 0);
+        console.log(counterForLeft);
+        console.log(counterForRight);
+    })
+}) */
+
+describe('loop Methode', () => {
+    it('checking for reachable fields.', () => {
+        let playboard: Gridboard = new Gridboard(createGameState(createBattlesnake()));
+        /* let priorityMoves = playboard.nextStepForLoop(); */
+    })
+})

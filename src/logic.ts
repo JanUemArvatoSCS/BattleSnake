@@ -30,9 +30,32 @@ export function move(gameState: GameState): MoveResponse {
         right: true
     }
 
-    //testcase:
     let playboard: Gridboard = new Gridboard(gameState);
+    let direction: string = playboard.calculateNextMove();
 
+    switch(direction){
+        case "up":
+            possibleMoves.down = false;
+            possibleMoves.left = false;
+            possibleMoves.right = false;
+            break;
+        case "down":
+            possibleMoves.up = false;
+            possibleMoves.left = false;
+            possibleMoves.right = false;
+            break;
+        case "left":
+            possibleMoves.down = false;
+            possibleMoves.up = false;
+            possibleMoves.right = false;
+            break;
+        case "right":
+            possibleMoves.down = false;
+            possibleMoves.left = false;
+            possibleMoves.up = false;
+            break;
+    }
+  
     const safeMoves = Object.keys(possibleMoves).filter(key => possibleMoves[key])
     const response: MoveResponse = {
         move: safeMoves[Math.floor(Math.random() * safeMoves.length)],

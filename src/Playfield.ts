@@ -7,7 +7,7 @@ export class Playfield{
     public distanceToOwnHead: number | undefined;
     private coord: Coord | undefined;
     private neighbours: {[key: string]: Playfield | undefined};
-    private visited: boolean;
+    public visited: boolean;
 
     public constructor(occupied: boolean){
         this.occupied = occupied;
