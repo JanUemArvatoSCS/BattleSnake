@@ -93,7 +93,7 @@ export class Gridboard {
         
 
         this.upgradePlayboardForLoop();
-        this.playboard.occupieFieldsWithThreeOccupiedNeighbours();
+        /* this.playboard.occupieFieldsWithThreeOccupiedNeighbours(); */
 
         let neighbours = this.playboard.getNeighbours(ownHead);
 
