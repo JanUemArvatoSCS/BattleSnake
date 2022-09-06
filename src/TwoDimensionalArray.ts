@@ -94,6 +94,12 @@ export class TwoDimensionalArray {
                 right: neigbourRight
             }
 
+            console.log("neighbours of " + coord.x + "|" + coord.y + ": ");
+            console.log("above: " + neigbourAbove);
+            console.log("below: " + neigbourBelow);
+            console.log("left: " + neigbourLeft);
+            console.log("right: " + neigbourRight);
+
             return neigbours;
         }else{
             console.log("-ERR 002: " + coord.x + "|" + coord.y + " are out of bounds!");
@@ -135,6 +141,7 @@ export class TwoDimensionalArray {
                     }
                     if(occupiedNeighbours >= 3){
                         this.twoDimArray[indexForW].rows[indexForH].setOccupied(true);
+                        console.log("found field with three neighbours: " + indexForW + " | " + indexForH)
                     }
                 }
             }
