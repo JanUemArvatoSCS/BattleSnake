@@ -542,8 +542,6 @@ export class Gridboard {
             counter += this.countFreeFields({x: coord.x + 1, y: coord.y}, 0);
         }
 
-        console.log("iteration " + coord.x + "|" + coord.y + ":" + counter);
-
         return counter;
 
     }
