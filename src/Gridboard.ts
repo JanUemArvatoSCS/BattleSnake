@@ -423,6 +423,13 @@ export class Gridboard {
             }
         }
 
+        console.log("array for moves: ");
+
+        console.log("up: " + priorityMoves.moveUp.available + " | " + priorityMoves.moveUp.priority);
+        console.log("down: " + priorityMoves.moveDown.available + " | " + priorityMoves.moveDown.priority);
+        console.log("left: " + priorityMoves.moveLeft.available + " | " + priorityMoves.moveLeft.priority);
+        console.log("right: " + priorityMoves.moveRight.available + " | " + priorityMoves.moveRight.priority);
+
         return priorityMoves;
     }
 

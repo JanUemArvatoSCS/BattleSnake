@@ -33,6 +33,8 @@ export function move(gameState: GameState): MoveResponse {
     let playboard: Gridboard = new Gridboard(gameState);
     let direction: string = playboard.calculateNextMove();
 
+    console.log("next move: " + direction)
+
     switch(direction){
         case "up":
             possibleMoves.down = false;
